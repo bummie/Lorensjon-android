@@ -1,0 +1,42 @@
+!§!Lorensjon todolist!§!
+Bevster 2012 ;*
+
+
+
+// Ikke færdig ennadaada \\
+
+
+*Add Nyheter fra forskellige skolene
+ -Velge skole fra instillingene
+
+*Add Om
+ -Kreddit
+ -Om
+ -Donasjoner
+ -Kontakt
+
+*Add Laerere fra diverse skolene
+ -Kontaktopplysninger
+
+*Fix
+ -Bug: Om internettet skulle komme på igjen etter en tidligere sjekk.  
+ 
+*Add flere skoler
+ -Raelingen // Nailed så hardt
+ -Mailand //Usikkerhet, skolearena
+ -Strommen // Nailed enda hardere enn Raelingen!
+ -Skedsmo //Skolearena
+ -Lillestrom // Sukk
+
+
+
+// Færdig med deggg \\
+
+
+*Fix Ukeplanstorelse
+ -Universal for alle devicer
+ 
+ 
+ 
+  HUffsamegen!
+ 

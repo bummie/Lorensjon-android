@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/net.bevster.lorensjon"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rel_lay"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/background" >
+
+        <Button
+            android:id="@+id/btn_lagre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/knapp_lagre" />
+
+        <TextView
+            android:id="@+id/info_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/app_name" />
+
+        <TextView
+            android:id="@+id/info_skole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/info_student"
+            android:layout_below="@+id/info_student"
+            android:layout_marginTop="16dp"
+            android:text="@string/app_name" />
+    </RelativeLayout>
+
+</LinearLayout>

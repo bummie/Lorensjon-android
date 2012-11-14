@@ -1,0 +1,24 @@
+Sebsss
+
+
+Lithium Hosting - Hosting av database
+
+jSoup - Jonathan Hedley
+
+ViewFlow -  Patrik "pakerfeldt" Åkerfeldt
+
+Actionbar - Johan Nilsson - Aka johannilsson - https://github.com/johannilsson
+
+Webviewer -  Nova Software
+
+Ikoner - Token - brsev
+
+Ereek -  Providerte link til rælingens skolllle
+
+CANE -  Providerte link til STREØMMEN! skolllle
+
+
+Google ;)
+
+
+fileFormat, String schoolID, Int32 type, String ID, String period, String week, Int32 day, Int32 mode, Int32 width, Int32 height, Int32 maxWidth, Int32 maxHeight, Boolean printer, Int32 colors, Boolean head, Boolean clock, Boolean foot) +724

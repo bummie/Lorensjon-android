@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Lørensjon</string>
+    <string name="chk_ukemodus">Velg oppløsning!</string>
+    <string name="chk_student">Finn ditt navn!</string>
+    <string name="chk_skole">Finn skolen din!</string>
+    <string name="chk_klasse">Finn klassen din!</string>
+    <string name="knapp_lagre">Lagre</string>
+    <string name="dash_nyheter">Nyheter</string>
+    <string name="dash_ukeplan">Ukeplan</string>
+    <string name="dash_om">Om</string>
+    <string name="dash_instillinger">Innstillinger</string>
+    <string name="low">Low</string>
+
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/net.bevster.lorensjon"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <com.markupartist.android.widget.ActionBar
+        android:id="@+id/actionbar"
+        style="@style/ActionBar"
+        app:title="Seb" />
+
+    <net.bevster.lorensjon.google.DashboardLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/background" >
+
+        <Button
+            android:id="@+id/btn_nyheter"
+            style="@style/DashboardButton"
+            android:drawableTop="@drawable/nyheter"
+            android:text="@string/dash_nyheter" />
+
+        <Button
+            android:id="@+id/btn_ukeplan"
+            style="@style/DashboardButton"
+            android:drawableTop="@drawable/ukeplan"
+            android:text="@string/dash_ukeplan" />
+
+        <Button
+            android:id="@+id/btn_om"
+            style="@style/DashboardButton"
+            android:drawableTop="@drawable/om"
+            android:text="@string/dash_om" />
+
+        <Button
+            android:id="@+id/btn_instillinger"
+            style="@style/DashboardButton"
+            android:drawableTop="@drawable/instillinger"
+            android:text="@string/dash_instillinger" />
+    </net.bevster.lorensjon.google.DashboardLayout>
+
+</LinearLayout>
