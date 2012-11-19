@@ -199,6 +199,8 @@ public class Instillinger extends Activity {
 
 	void setStatus() {
 
+		loadValuesArrays();
+
 		String kulStart = "( \"";
 		String kulSlutt = "\" )";
 
@@ -297,7 +299,13 @@ public class Instillinger extends Activity {
 					spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
 
 				} else {
-					spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnStudentArray(isOnline(), SETTINGS_STUDENT[1].toString()));
+					if (!SETTINGS_STUDENT[1].toString().equalsIgnoreCase("Fabeldyr")) {
+						spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnStudentArray(isOnline(), SETTINGS_STUDENT[1].toString()));
+						Log.e("NordViking", "Jeg prover aa laste den skitd" + SETTINGS_STUDENT[1].toString());
+
+					} else {
+						spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
+					}
 
 				}
 
