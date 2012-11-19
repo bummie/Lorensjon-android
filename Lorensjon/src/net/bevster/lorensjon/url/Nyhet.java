@@ -7,15 +7,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class Nyhet extends Parser {
+public class Nyhet {
 
 	Document melding_main;
 
 	public static final String ADRESSE_NETTSIDE = "http://bevster.net/bev_nyheter.php";
 
 	public Nyhet(String adresse) {
-		super(adresse);
-
 		melding_main = null;
 
 		try {
