@@ -46,7 +46,7 @@ public class Instillinger extends Activity {
 	Spinner spinner_student, spinner_skole, spinner_klasse, spinner_ukemodus;
 	SeekBar uke_bar;
 	Button btn_lagre, btn_ref_skole, btn_ref_klasse;
-	CheckBox chk_nett;
+	CheckBox chk_nett, chk_motd;
 	TextView txt_info_ukeplan, txt_info_profil, txt_ukeplan;
 	EditText Edit_Height, Edit_Width;
 	ArrayAdapter<String> spinner_adapter_navn, spinner_adapter_skole, spinner_adapter_klasse, spinner_adapter_ukemodus;
@@ -95,6 +95,7 @@ public class Instillinger extends Activity {
 
 		// Sjekkboks for nett eller lokal henting av data-
 		chk_nett = (CheckBox) findViewById(R.id.checkBox_profil_nett);
+		chk_motd = (CheckBox) findViewById(R.id.chk_motd);
 
 	}
 
@@ -259,6 +260,18 @@ public class Instillinger extends Activity {
 			uke_bar.setProgress(Integer.parseInt(SETTINGS_UKEPLAN[0].toString()));
 			spinner_ukemodus.setSelection((Integer.parseInt(SETTINGS_UKEPLAN[1].toString())));
 
+			switch (Integer.parseInt(SETTINGS_UKEPLAN[2].toString())) {
+			case 0:
+				chk_nett.setChecked(false);
+				break;
+			case 1:
+				chk_nett.setChecked(true);
+				break;
+			default:
+				chk_nett.setChecked(false);
+				break;
+			}
+
 		}
 	}
 
@@ -378,6 +391,11 @@ public class Instillinger extends Activity {
 
 		SETTINGS_UKEPLAN[0] = Integer.toString(uke_bar.getProgress()); // Uke
 		SETTINGS_UKEPLAN[1] = Integer.toString(spinner_ukemodus.getSelectedItemPosition()); // Modus
+
+		if (chk_motd.isChecked())
+			SETTINGS_UKEPLAN[2] = "1"; // MOTD
+		if (!chk_motd.isChecked())
+			SETTINGS_UKEPLAN[2] = "0"; // MOTD
 
 		// -----------------------------------------------------------------------------
 		// Purpose: Write table to file

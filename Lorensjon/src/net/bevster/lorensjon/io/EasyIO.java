@@ -19,7 +19,7 @@ public class EasyIO extends IO {
 	private static final String DEFAULT_TABLETEXT = "Fabeldyr";
 
 	String[] default_table_studenter = { DEFAULT_TABLETEXT, DEFAULT_TABLETEXT, DEFAULT_TABLETEXT, "0", "1", "0", "0", "0", "0", "null", "null" };
-	String[] default_table_ukeplan = { "0", "1", "null", "null", "null", "null", "null", "null", "null", "null" };
+	String[] default_table_ukeplan = { "0", "1", "0", "null", "null", "null", "null", "null", "null", "null" };
 
 	public EasyIO() {
 

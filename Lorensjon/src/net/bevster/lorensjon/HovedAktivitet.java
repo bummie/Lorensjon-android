@@ -1,5 +1,6 @@
 package net.bevster.lorensjon;
 
+import net.bevster.lorensjon.io.EasyIO;
 import net.bevster.lorensjon.url.Nyhet;
 import android.app.Activity;
 import android.content.Context;
@@ -20,6 +21,10 @@ public class HovedAktivitet extends Activity {
 
 	Button btn_nyheter, btn_ukeplan, btn_instillinger, btn_om;
 	TextView txt_nyhet;
+
+	String[] SETTINGS_UKEPLAN;
+
+	EasyIO eIO;
 
 	Nyhet prs_nyhet;
 
@@ -70,6 +75,9 @@ public class HovedAktivitet extends Activity {
 		// TODO Auto-generated method stub
 		super.onStart();
 
+		eIO = new EasyIO();
+		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
+
 		btn_nyheter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				btn_nyheter.setBackgroundColor(Color.argb(120, 46, 136, 158));
@@ -110,22 +118,32 @@ public class HovedAktivitet extends Activity {
 			}
 		});
 
-		visMOTD();
+		if (Integer.parseInt(SETTINGS_UKEPLAN[2].toString()) == 1) {
+			visMOTD(true);
+		} else {
+			visMOTD(false);
+		}
 
 	}
 
-	void visMOTD() {
-		if (isOnline()) {
+	void visMOTD(boolean t) {
+		if (t) {
+			if (isOnline()) {
 
-			prs_nyhet = new Nyhet(Nyhet.ADRESSE_NETTSIDE);
+				prs_nyhet = new Nyhet(Nyhet.ADRESSE_NETTSIDE);
 
-			txt_nyhet.setText("");
-			txt_nyhet.append(prs_nyhet.returnMelding());
+				txt_nyhet.setText("");
+				txt_nyhet.append(prs_nyhet.returnMelding());
 
+			} else {
+				txt_nyhet.setText("");
+				txt_nyhet.append("Intet nettverk!");
+			}
 		} else {
 			txt_nyhet.setText("");
-			txt_nyhet.append("Intet nettverk!");
+			txt_nyhet.append("Vil du ikke ha spennende meldinger?");
 		}
+
 	}
 
 	public boolean isOnline() {
