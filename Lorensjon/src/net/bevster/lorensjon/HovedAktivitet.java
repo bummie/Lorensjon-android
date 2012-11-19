@@ -64,6 +64,9 @@ public class HovedAktivitet extends Activity {
 		btn_nyheter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				btn_nyheter.setBackgroundColor(Color.argb(120, 46, 136, 158));
+				Intent myIntent = new Intent(HovedAktivitet.this, Nyheter.class);
+				HovedAktivitet.this.startActivity(myIntent);
+				HovedAktivitet.this.finish();
 
 			}
 		});
@@ -71,7 +74,6 @@ public class HovedAktivitet extends Activity {
 			public void onClick(View v) {
 				btn_ukeplan.setBackgroundColor(Color.argb(120, 46, 136, 158));
 				setContentView(R.layout.loading);
-
 				Intent myIntent = new Intent(HovedAktivitet.this, Ukeplan.class);
 				HovedAktivitet.this.startActivity(myIntent);
 				HovedAktivitet.this.finish();
@@ -81,7 +83,7 @@ public class HovedAktivitet extends Activity {
 		btn_om.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				btn_om.setBackgroundColor(Color.argb(120, 46, 136, 158));
-				setContentView(R.layout.loading);
+			//	setContentView(R.layout.loading);
 				Intent myIntent = new Intent(HovedAktivitet.this, Om.class);
 				HovedAktivitet.this.startActivity(myIntent);
 				HovedAktivitet.this.finish();

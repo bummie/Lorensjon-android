@@ -1,9 +1,9 @@
-!ï¿½!Lorensjon todolist!ï¿½!
+!§!Lorensjon todolist!§!
 Bevster 2012 ;*
-==============================
 
 
-// Ikke fï¿½rdig ennadaada \\
+
+// Ikke færdig ennadaada \\
 
 
 *Add Nyheter fra forskellige skolene
@@ -19,10 +19,10 @@ Bevster 2012 ;*
  -Kontaktopplysninger
 
 *Fix
- -Bug: Om internettet skulle komme pï¿½ igjen etter en tidligere sjekk.  
+ -Bug: Om internettet skulle komme på igjen etter en tidligere sjekk.  
  
 *Add flere skoler
- -Raelingen // Nailed sï¿½ hardt
+ -Raelingen // Nailed så hardt
  -Mailand //Usikkerhet, skolearena
  -Strommen // Nailed enda hardere enn Raelingen!
  -Skedsmo //Skolearena
@@ -30,7 +30,7 @@ Bevster 2012 ;*
 
 
 
-// Fï¿½rdig med deggg \\
+// Færdig med deggg \\
 
 
 *Fix Ukeplanstorelse
