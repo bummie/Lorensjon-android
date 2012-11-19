@@ -19,8 +19,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -293,35 +291,42 @@ public class Instillinger extends Activity {
 				}
 
 			} else {
-				spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Lørenskog", "Rælingen", "Strømmen" });
-				spinner_adapter_klasse = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnKlasseArray(isOnline()));
-				if (Integer.parseInt(SETTINGS_STUDENT[4].toString()) == 2) { // Strommen sine spesielle needs
-					spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
+				if (isOnline()) {
 
-				} else {
-					if (!SETTINGS_STUDENT[1].toString().equalsIgnoreCase("Fabeldyr")) {
-						spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnStudentArray(isOnline(), SETTINGS_STUDENT[1].toString()));
-						Log.e("NordViking", "Jeg prover aa laste den skitd" + SETTINGS_STUDENT[1].toString());
+					spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Lørenskog", "Rælingen", "Strømmen" });
+					spinner_adapter_klasse = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnKlasseArray(isOnline()));
+					if (Integer.parseInt(SETTINGS_STUDENT[4].toString()) == 2) { // Strommen sine spesielle needs
+						spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
 
 					} else {
-						spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
+						if (!SETTINGS_STUDENT[1].toString().equalsIgnoreCase("Fabeldyr")) {
+							spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnStudentArray(isOnline(), SETTINGS_STUDENT[1].toString()));
+							Log.e("NordViking", "Jeg prover aa laste den skitd" + SETTINGS_STUDENT[1].toString());
+
+						} else {
+							spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
+						}
+
 					}
+				} else {
 
 				}
-
 			}
 
 			spinner_adapter_ukemodus = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Høy", "Lav" });
 
 			// Automatisk spinneroppdatering
 		} else {
-			spinner_adapter_klasse = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnKlasseArray(isOnline()));
+			if (isOnline()) {
+				spinner_adapter_klasse = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnKlasseArray(isOnline()));
 
-			if (Integer.parseInt(SETTINGS_STUDENT[8].toString()) == 2) { // Strommen sine spesielle needs
-				spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
+				if (Integer.parseInt(SETTINGS_STUDENT[8].toString()) == 2) { // Strommen sine spesielle needs
+					spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
 
-			} else {
-				spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnStudentArray(isOnline(), spinner_klasse.getSelectedItem().toString()));
+				} else {
+					spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnStudentArray(isOnline(), spinner_klasse.getSelectedItem().toString()));
+
+				}
 
 			}
 
@@ -351,15 +356,15 @@ public class Instillinger extends Activity {
 				SETTINGS_STUDENT[8] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Spinner skole
 
 			}
-		}
 
-		// Strommen fiks
-		if (Integer.parseInt(SETTINGS_STUDENT[8].toString()) == 2) {
-			SETTINGS_STUDENT[2] = lData.returnIdFromKlasse(isOnline(), SETTINGS_STUDENT[1].toString()); // ID
+			// Strommen fiks
+			if (Integer.parseInt(SETTINGS_STUDENT[8].toString()) == 2) {
+				SETTINGS_STUDENT[2] = lData.returnIdFromKlasse(isOnline(), SETTINGS_STUDENT[1].toString()); // ID
 
-		} else {
-			SETTINGS_STUDENT[2] = lData.returnIdFromName(isOnline(), spinner_student.getSelectedItem().toString()); // ID
+			} else {
+				SETTINGS_STUDENT[2] = lData.returnIdFromName(isOnline(), spinner_student.getSelectedItem().toString()); // ID
 
+			}
 		}
 
 		if (chk_nett.isChecked())
