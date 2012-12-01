@@ -7,6 +7,7 @@ package net.bevster.lorensjon;
 import net.bevster.lorensjon.adapters.Instillinger_adapter;
 import net.bevster.lorensjon.io.EasyIO;
 import net.bevster.lorensjon.io.LokalData;
+import net.bevster.lorensjon.url.Nyhet;
 
 import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
@@ -16,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +28,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.IntentAction;
@@ -110,8 +113,7 @@ public class Instillinger extends Activity {
 		btn_lagre.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
-				saveValues();
-				setStatus();
+				new Task_Lagre().execute(true);
 
 			}
 		});
@@ -120,32 +122,19 @@ public class Instillinger extends Activity {
 			public void onClick(View v) {
 				if (Integer.parseInt(SETTINGS_STUDENT[6].toString()) == 1) {
 
-					Log.e("BADASS_skole_spinner", "Blir kalt ved start");
-
-					SETTINGS_STUDENT[8] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Plass i spinner skole
-					eIO.fileWrite(EasyIO.SETTINGS_STUDENTER, eIO.fromTable(SETTINGS_STUDENT));
-					Log.e("BADASS_skole_spinner", SETTINGS_STUDENT[8]);
-
-					spinner_skole.setAdapter(spinner_adapter_skole);
-					spinner_skole.setSelection(Integer.parseInt(SETTINGS_STUDENT[8].toString()));
-					loadArrayAdapters(false);
-					spinner_klasse.setAdapter(spinner_adapter_klasse);
-					spinner_klasse.setSelection(1);
-					loadArrayAdapters(false);
-					spinner_student.setAdapter(spinner_adapter_navn);
+					new Task_Skole().execute(true);
 				}
 			}
+
 		});
 
 		btn_ref_klasse = (Button) findViewById(R.id.btn_ref_klasse);
 		btn_ref_klasse.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+
 				if (Integer.parseInt(SETTINGS_STUDENT[6].toString()) == 1) {
+					new Task_Klasse().execute(true);
 
-					Log.e("BADDASS_KLASSE", "Blir kalt ved start");
-
-					loadArrayAdapters(false);
-					spinner_student.setAdapter(spinner_adapter_navn);
 				}
 			}
 
@@ -177,18 +166,7 @@ public class Instillinger extends Activity {
 
 		});
 
-		loadValuesArrays(); // Fyll tabellene med lagret data
-
-		SETTINGS_STUDENT[8] = SETTINGS_STUDENT[4]; // Spinner skole
-		eIO.fileWrite(EasyIO.SETTINGS_STUDENTER, eIO.fromTable(SETTINGS_STUDENT));
-
-		loadArrayAdapters(true); // Last inn arrayadaptere
-		spinner_skole.setAdapter(spinner_adapter_skole);
-		spinner_klasse.setAdapter(spinner_adapter_klasse);
-		spinner_student.setAdapter(spinner_adapter_navn);
-		spinner_ukemodus.setAdapter(spinner_adapter_ukemodus);
-		loadStoredValues(); // Last inn lagrede data til view elementer
-		setStatus(); // Oppdater status fra lokaldata
+		new Task_Oppstart().execute(true);
 
 	}
 
@@ -418,6 +396,127 @@ public class Instillinger extends Activity {
 			return true;
 		}
 		return false;
+	}
+
+	private class Task_Lagre extends AsyncTask<Boolean, Integer, String> {
+
+		protected String doInBackground(Boolean... params) {
+
+			saveValues();
+
+			return "Padde";
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+
+			Toast.makeText(getApplicationContext(), "Kan ta litt tid!", Toast.LENGTH_SHORT).show();
+
+		}
+
+		protected void onPostExecute(String result) {
+			setStatus();
+			Toast.makeText(getApplicationContext(), "Lagret data", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private class Task_Klasse extends AsyncTask<Boolean, Integer, String> {
+
+		protected String doInBackground(Boolean... params) {
+
+			loadArrayAdapters(false);
+
+			return "Padde";
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+
+			Toast.makeText(getApplicationContext(), "Kan ta litt tid!", Toast.LENGTH_SHORT).show();
+
+		}
+
+		protected void onPostExecute(String result) {
+			spinner_student.setAdapter(spinner_adapter_navn);
+
+			Toast.makeText(getApplicationContext(), "Lastet klassedata", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private class Task_Skole extends AsyncTask<Boolean, Integer, String> {
+
+		protected String doInBackground(Boolean... params) {
+
+			Log.e("BADASS_skole_spinner", "Blir kalt ved start");
+
+			SETTINGS_STUDENT[8] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Plass i spinner skole
+			eIO.fileWrite(EasyIO.SETTINGS_STUDENTER, eIO.fromTable(SETTINGS_STUDENT));
+			Log.e("BADASS_skole_spinner", SETTINGS_STUDENT[8]);
+
+			loadArrayAdapters(false);
+
+			return "Padde";
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+
+			Toast.makeText(getApplicationContext(), "Kan ta litt tid!", Toast.LENGTH_SHORT).show();
+
+		}
+
+		protected void onPostExecute(String result) {
+			spinner_skole.setAdapter(spinner_adapter_skole);
+			spinner_skole.setSelection(Integer.parseInt(SETTINGS_STUDENT[8].toString()));
+			spinner_klasse.setAdapter(spinner_adapter_klasse);
+			spinner_klasse.setSelection(1);
+			loadArrayAdapters(false);
+			spinner_student.setAdapter(spinner_adapter_navn);
+			Toast.makeText(getApplicationContext(), "Lastet skoledata", Toast.LENGTH_SHORT).show();
+		}
+
+	}
+
+	private class Task_Oppstart extends AsyncTask<Boolean, Integer, String> {
+
+		protected String doInBackground(Boolean... params) {
+
+			loadValuesArrays(); // Fyll tabellene med lagret data
+
+			SETTINGS_STUDENT[8] = SETTINGS_STUDENT[4]; // Spinner skole
+			eIO.fileWrite(EasyIO.SETTINGS_STUDENTER, eIO.fromTable(SETTINGS_STUDENT));
+
+			loadArrayAdapters(true); // Last inn arrayadaptere
+
+			return "Padde";
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			Toast.makeText(getApplicationContext(), "Laster verdier!", Toast.LENGTH_SHORT).show();
+
+		}
+
+		protected void onPostExecute(String result) {
+
+			spinner_skole.setAdapter(spinner_adapter_skole);
+			spinner_klasse.setAdapter(spinner_adapter_klasse);
+			spinner_student.setAdapter(spinner_adapter_navn);
+			spinner_ukemodus.setAdapter(spinner_adapter_ukemodus);
+			loadStoredValues(); // Last inn lagrede data til view elementer
+			setStatus(); // Oppdater status fra lokaldata
+
+			Toast.makeText(getApplicationContext(), "Lastet verdier!", Toast.LENGTH_SHORT).show();
+		}
+
 	}
 
 }
