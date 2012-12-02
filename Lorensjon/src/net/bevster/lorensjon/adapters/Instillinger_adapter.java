@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------------
+// Bevster 2012 - Kos deg unge and!
+//-----------------------------------------------------------------------------
+
+
 package net.bevster.lorensjon.adapters;
 
 import net.bevster.lorensjon.R;
@@ -51,10 +56,10 @@ public class Instillinger_adapter extends BaseAdapter implements TitleProvider {
 			convertView = mInflater.inflate(R.layout.content_instillinger_status, null);
 			break;
 		case 1:
-			convertView = mInflater.inflate(R.layout.content_instillinger_profil, null);
+			convertView = mInflater.inflate(R.layout.content_instillinger_ukeplan, null);
 			break;
 		case 2:
-			convertView = mInflater.inflate(R.layout.content_instillinger_ukeplan, null);
+			convertView = mInflater.inflate(R.layout.content_instillinger_profil, null);
 			break;
 		default:
 			break;

@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// Bevster 2012 - Kos deg unge and!
+//-----------------------------------------------------------------------------
+
 package net.bevster.lorensjon;
 
 import net.bevster.lorensjon.io.EasyIO;
@@ -49,28 +53,8 @@ public class HovedAktivitet extends Activity {
 
 	}
 
-
-
 	public HovedAktivitet() {
 		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-	}
-
-	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
 	}
 
 	@Override
@@ -85,17 +69,10 @@ public class HovedAktivitet extends Activity {
 			public void onClick(View v) {
 				btn_nyheter.setBackgroundColor(Color.argb(120, 46, 136, 158));
 
-				new Thread(new Runnable() {
-					public void run() {
-						btn_nyheter.post(new Runnable() {
-							public void run() {
-								Intent myIntent = new Intent(HovedAktivitet.this, Nyheter.class);
-								HovedAktivitet.this.startActivity(myIntent);
-								HovedAktivitet.this.finish();
-							}
-						});
-					}
-				}).start();
+				setContentView(R.layout.loading);
+				Intent myIntent = new Intent(HovedAktivitet.this, Nyheter.class);
+				HovedAktivitet.this.startActivity(myIntent);
+				HovedAktivitet.this.finish();
 
 			}
 		});
@@ -103,18 +80,10 @@ public class HovedAktivitet extends Activity {
 			public void onClick(View v) {
 				btn_ukeplan.setBackgroundColor(Color.argb(120, 46, 136, 158));
 
-				new Thread(new Runnable() {
-					public void run() {
-						btn_ukeplan.post(new Runnable() {
-							public void run() {
-								setContentView(R.layout.loading);
-								Intent myIntent = new Intent(HovedAktivitet.this, Ukeplan.class);
-								HovedAktivitet.this.startActivity(myIntent);
-								HovedAktivitet.this.finish();
-							}
-						});
-					}
-				}).start();
+				setContentView(R.layout.loading);
+				Intent myIntent = new Intent(HovedAktivitet.this, Ukeplan.class);
+				HovedAktivitet.this.startActivity(myIntent);
+				HovedAktivitet.this.finish();
 
 			}
 		});
@@ -122,18 +91,10 @@ public class HovedAktivitet extends Activity {
 			public void onClick(View v) {
 				btn_om.setBackgroundColor(Color.argb(120, 46, 136, 158));
 
-				new Thread(new Runnable() {
-					public void run() {
-						btn_om.post(new Runnable() {
-							public void run() {
-								// setContentView(R.layout.loading);
-								Intent myIntent = new Intent(HovedAktivitet.this, Om.class);
-								HovedAktivitet.this.startActivity(myIntent);
-								HovedAktivitet.this.finish();
-							}
-						});
-					}
-				}).start();
+				setContentView(R.layout.loading);
+				Intent myIntent = new Intent(HovedAktivitet.this, Om.class);
+				HovedAktivitet.this.startActivity(myIntent);
+				HovedAktivitet.this.finish();
 
 			}
 		});
@@ -141,18 +102,10 @@ public class HovedAktivitet extends Activity {
 			public void onClick(View v) {
 				btn_instillinger.setBackgroundColor(Color.argb(120, 46, 136, 158));
 
-				new Thread(new Runnable() {
-					public void run() {
-						btn_instillinger.post(new Runnable() {
-							public void run() {
-								setContentView(R.layout.loading);
-								Intent myIntent = new Intent(HovedAktivitet.this, Instillinger.class);
-								HovedAktivitet.this.startActivity(myIntent);
-								HovedAktivitet.this.finish();
-							}
-						});
-					}
-				}).start();
+				setContentView(R.layout.loading);
+				Intent myIntent = new Intent(HovedAktivitet.this, Instillinger.class);
+				HovedAktivitet.this.startActivity(myIntent);
+				HovedAktivitet.this.finish();
 
 			}
 		});
@@ -170,7 +123,7 @@ public class HovedAktivitet extends Activity {
 		}
 		return false;
 	}
-	
+
 	private class Task_MOTD extends AsyncTask<Boolean, Integer, String> {
 
 		protected String doInBackground(Boolean... params) {
@@ -193,10 +146,6 @@ public class HovedAktivitet extends Activity {
 			}
 
 			return mld;
-		}
-
-		protected void onProgressUpdate(Integer... progress) {
-
 		}
 
 		protected void onPostExecute(String result) {

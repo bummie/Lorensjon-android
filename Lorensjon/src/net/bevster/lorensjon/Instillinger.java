@@ -170,6 +170,18 @@ public class Instillinger extends Activity {
 
 	}
 
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+
+		setContentView(R.layout.loading);
+		Intent myIntent = new Intent(Instillinger.this, HovedAktivitet.class);
+		Instillinger.this.startActivity(myIntent);
+		Instillinger.this.finish();
+
+	}
+
 	// -----------------------------------------------------------------------------
 	// Purpose: Laste inn fra alle lagrede innstillinger til statusside
 	// -----------------------------------------------------------------------------
@@ -240,13 +252,13 @@ public class Instillinger extends Activity {
 
 			switch (Integer.parseInt(SETTINGS_UKEPLAN[2].toString())) {
 			case 0:
-				chk_nett.setChecked(false);
+				chk_motd.setChecked(false);
 				break;
 			case 1:
-				chk_nett.setChecked(true);
+				chk_motd.setChecked(true);
 				break;
 			default:
-				chk_nett.setChecked(false);
+				chk_motd.setChecked(false);
 				break;
 			}
 

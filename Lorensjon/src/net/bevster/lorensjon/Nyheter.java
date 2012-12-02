@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// Bevster 2012 - Kos deg unge and!
+//-----------------------------------------------------------------------------
+
 package net.bevster.lorensjon;
 
 import android.app.Activity;
@@ -29,6 +33,18 @@ public class Nyheter extends Activity {
 
 		actionBar.setTitle(R.string.app_name);
 		actionBar.setHomeAction(new IntentAction(Nyheter.this.getBaseContext(), intent_menu, R.drawable.akershus_logo_96));
+
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+
+		setContentView(R.layout.loading);
+		Intent myIntent = new Intent(Nyheter.this, HovedAktivitet.class);
+		Nyheter.this.startActivity(myIntent);
+		Nyheter.this.finish();
 
 	}
 

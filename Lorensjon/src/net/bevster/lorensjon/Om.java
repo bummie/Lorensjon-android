@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// Bevster 2012 - Kos deg unge and!
+//-----------------------------------------------------------------------------
+
 package net.bevster.lorensjon;
 
 import net.bevster.lorensjon.adapters.Om_adapter;
@@ -8,6 +12,9 @@ import org.taptwo.android.widget.ViewFlow;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.markupartist.android.widget.ActionBar;
@@ -57,6 +64,18 @@ public class Om extends Activity {
 
 		txt_kred = (TextView) findViewById(R.id.txt_kreditt);
 		txt_kred.setText(takk);
+
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+
+		setContentView(R.layout.loading);
+		Intent myIntent = new Intent(Om.this, HovedAktivitet.class);
+		Om.this.startActivity(myIntent);
+		Om.this.finish();
 
 	}
 

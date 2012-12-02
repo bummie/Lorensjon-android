@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// Bevster 2012 - Kos deg unge and!
+//-----------------------------------------------------------------------------
+
 package net.bevster.lorensjon;
 
 import net.bevster.lorensjon.adapters.Ukeplan_adapter;
@@ -51,6 +55,18 @@ public class Ukeplan extends Activity {
 		TitleFlowIndicator indicator = (TitleFlowIndicator) findViewById(R.id.viewflowindic);
 		indicator.setTitleProvider(adapter);
 		viewFlow.setFlowIndicator(indicator);
+
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+
+		setContentView(R.layout.loading);
+		Intent myIntent = new Intent(Ukeplan.this, HovedAktivitet.class);
+		Ukeplan.this.startActivity(myIntent);
+		Ukeplan.this.finish();
 
 	}
 }
