@@ -1,15 +1,17 @@
 L-rensjon
 =========
 
-En applikasjon for enkelte videregående skoler.
+En applikasjon for å vise timeplanen til videregående skoler som bruker Nova Software sin Webviewer!
 
-Kun støtte for Android foreløpig.
-
+Kun støtte for Android foreløpig. Ta gjerne kontakt om du vil utvikle for andre plattformer!
 
 Støttede skoler
  - Lørenskog VGS
  - Rælingen VGS
  - Strømmen VGS
+ - Lillestrøm VGS
+ - Mailand VGS
+ - ++ Requests
 
 Takk til
 ========
@@ -24,12 +26,13 @@ Actionbar - Johan Nilsson - Aka johannilsson - https://github.com/johannilsson
 
 Webviewer -  Nova Software
 
-Ikoner - Token - brsev
 
-Ereek -  Providerte link til rælingens skolllle
 
-CANE -  Providerte link til STREØMMEN! skolllle
+Erek - Link til Rælingen VGS  
 
+CANE -  Link til Strømmen VGS
+
+Sindre - Link til Lillestrøm VGS
 
 Google ;)
 
