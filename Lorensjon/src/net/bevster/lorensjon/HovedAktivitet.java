@@ -5,7 +5,7 @@
 package net.bevster.lorensjon;
 
 import net.bevster.lorensjon.io.EasyIO;
-import net.bevster.lorensjon.url.Nyhet;
+import net.bevster.lorensjon.url.PHPRequest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +14,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.markupartist.android.widget.ActionBar;
 
@@ -30,9 +32,8 @@ public class HovedAktivitet extends Activity {
 	String[] SETTINGS_UKEPLAN;
 
 	EasyIO eIO;
-
-	public static Nyhet prs_nyhet;
-
+	PHPRequest PReq;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,14 +66,18 @@ public class HovedAktivitet extends Activity {
 		eIO = new EasyIO();
 		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
 
+		PReq = new PHPRequest();
+		
 		btn_nyheter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				btn_nyheter.setBackgroundColor(Color.argb(120, 46, 136, 158));
+			/*	 btn_nyheter.setBackgroundColor(Color.argb(120, 46, 136, 158));
 
-				setContentView(R.layout.loading);
-				Intent myIntent = new Intent(HovedAktivitet.this, Nyheter.class);
-				HovedAktivitet.this.startActivity(myIntent);
-				HovedAktivitet.this.finish();
+				 setContentView(R.layout.loading);
+				 Intent myIntent = new Intent(HovedAktivitet.this, Nyheter.class);
+				 HovedAktivitet.this.startActivity(myIntent);
+				 HovedAktivitet.this.finish();
+			*/
+				Toast.makeText(getApplicationContext(), "Ikke tilgjengelig!", Toast.LENGTH_SHORT).show();
 
 			}
 		});
@@ -130,12 +135,12 @@ public class HovedAktivitet extends Activity {
 
 			String mld = "Ingen melding";
 
+			Log.w("Task_MOTD", Boolean.toString(params[0]));
+			
 			if (params[0]) {
 				if (params[1]) {
 
-					prs_nyhet = new Nyhet(Nyhet.ADRESSE_NETTSIDE);
-
-					mld = prs_nyhet.returnMelding();
+					mld = PReq.request("loren_motd", "printfull", "", "")[0][0].toString();
 
 				} else {
 					mld = "Intet nettverk!";

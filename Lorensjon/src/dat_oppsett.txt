@@ -1,0 +1,47 @@
+!#! Strukturen for diverse filer !#!
+
+
+* Settings *
+
+// Studenter
+
+0 - Navnet på student: "Berge, Sebastian"
+1 - Klassen til student: "1STB" 
+2 - Studentens ID: "2123D-4864768-556454"
+3 - Plass i spinner: Skole
+4 - 			//Plass i spinner: Skole
+5 -				//Plass i spinner: Klasse
+6 - 			//Nettverk - Laste liste fra nettet: Checkbox
+7 - 			//Navn på skole valgt i spinner
+8 - 
+9 - 
+
+
+
+// Skole
+
+0 - Uke: Hvilken uke vi onsker
+1 - Modus: Hvilken opplosning en onsker
+2 - MOTD: Onsker vedkommende MOTD
+3 - Skolenavn - Tabellnavnet
+4 - SkoleID - Skolens ID
+5 - SkoleKode - Skolens kode
+6 -
+7 -
+8 -
+9 -
+
+// Domain
+
+0 - Domenenavnet: "bevster.net"
+
+
+
+
+
+
+
+
+
+
+

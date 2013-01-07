@@ -6,8 +6,7 @@ package net.bevster.lorensjon;
 
 import net.bevster.lorensjon.adapters.Instillinger_adapter;
 import net.bevster.lorensjon.io.EasyIO;
-import net.bevster.lorensjon.io.LokalData;
-import net.bevster.lorensjon.url.Nyhet;
+import net.bevster.lorensjon.url.PHPRequest;
 
 import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
@@ -21,10 +20,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,22 +40,27 @@ public class Instillinger extends Activity {
 
 	ActionBar actionBar;
 
+	PHPRequest PReq;
+
 	EasyIO eIO;
-	LokalData lData;
 
 	Intent intent_menu;
 
-	String[] SETTINGS_STUDENT, SETTINGS_UKEPLAN;
+	String[] SETTINGS_STUDENT, SETTINGS_UKEPLAN, SETTINGS_DOMAIN;
+	String[][] Loren_data;
+
+	boolean spinner_klar = false;
 
 	ViewFlow viewFlow;
 
-	Spinner spinner_student, spinner_skole, spinner_klasse, spinner_ukemodus;
+	Spinner spinner_skole, spinner_navn, spinner_ukemodus;
 	SeekBar uke_bar;
-	Button btn_lagre, btn_ref_skole, btn_ref_klasse;
-	CheckBox chk_nett, chk_motd;
+	Button btn_lagre, btn_sok;
+	RadioGroup radio_sok;
+	CheckBox chk_motd;
 	TextView txt_info_ukeplan, txt_info_profil, txt_ukeplan;
-	EditText Edit_Height, Edit_Width;
-	ArrayAdapter<String> spinner_adapter_navn, spinner_adapter_skole, spinner_adapter_klasse, spinner_adapter_ukemodus;
+	EditText loren_sok_tekst;
+	ArrayAdapter<String> spinner_adapter_navn, spinner_adapter_skole, spinner_adapter_ukemodus;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,24 +88,27 @@ public class Instillinger extends Activity {
 		actionBar.setTitle(R.string.app_name);
 		actionBar.setHomeAction(new IntentAction(Instillinger.this.getBaseContext(), intent_menu, R.drawable.akershus_logo_96));
 
-		// Laster inn tekstseeee
+		// Laster inn tekst
 		txt_info_ukeplan = (TextView) findViewById(R.id.info_skole);
 		txt_info_profil = (TextView) findViewById(R.id.info_student);
 		txt_ukeplan = (TextView) findViewById(R.id.info_ukeplan);
 
+		// Laster inn tekstfelt for sok
+		loren_sok_tekst = (EditText) findViewById(R.id.loren_sok_tekst);
+
+		// Laster inn radiogruppe
+		radio_sok = (RadioGroup) findViewById(R.id.loren_radio_sok);
+
 		// Laster inn spinnere
-		spinner_student = (Spinner) findViewById(R.id.spinner_student);
-
-		spinner_skole = (Spinner) findViewById(R.id.Spinner_skole);
-		spinner_klasse = (Spinner) findViewById(R.id.spinner_klasse);
-
+		spinner_skole = (Spinner) findViewById(R.id.loren_spinner_skole);
+		spinner_navn = (Spinner) findViewById(R.id.loren_spinner_navn);
 		spinner_ukemodus = (Spinner) findViewById(R.id.spinner_modus);
 
 		// Laster inn for valg av uke
 		uke_bar = (SeekBar) findViewById(R.id.Uke_bar);
 
 		// Sjekkboks for nett eller lokal henting av data-
-		chk_nett = (CheckBox) findViewById(R.id.checkBox_profil_nett);
+		// chk_nett = (CheckBox) findViewById(R.id.checkBox_profil_nett);
 		chk_motd = (CheckBox) findViewById(R.id.chk_motd);
 
 	}
@@ -106,9 +117,11 @@ public class Instillinger extends Activity {
 	protected void onStart() {
 		super.onStart();
 
+		// Last inn EasyIO;
 		eIO = new EasyIO();
-		lData = new LokalData();
+		PReq = new PHPRequest();
 
+		// Knapp for aa lagre informasjon
 		btn_lagre = (Button) findViewById(R.id.btn_lagre);
 		btn_lagre.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -117,30 +130,49 @@ public class Instillinger extends Activity {
 
 			}
 		});
-		btn_ref_skole = (Button) findViewById(R.id.btn_ref_skole);
-		btn_ref_skole.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				if (Integer.parseInt(SETTINGS_STUDENT[6].toString()) == 1) {
 
-					new Task_Skole().execute(true);
+		// Sokeknapp
+		btn_sok = (Button) findViewById(R.id.loren_knapp_sok);
+		btn_sok.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+
+				if (isOnline()) {
+					if (!loren_sok_tekst.getText().toString().equalsIgnoreCase("")) {
+						new Task_Sok().execute(loren_sok_tekst.getText().toString());
+					} else {
+						Toast.makeText(getApplicationContext(), "Kan ikke søke blankt!", Toast.LENGTH_SHORT).show();
+					}
+				} else {
+					Toast.makeText(getApplicationContext(), "Intet internett!", Toast.LENGTH_SHORT).show();
 				}
 			}
 
 		});
 
-		btn_ref_klasse = (Button) findViewById(R.id.btn_ref_klasse);
-		btn_ref_klasse.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
+		spinner_navn.post(new Runnable() {
+			public void run() {
+				spinner_navn.setOnItemSelectedListener(new OnItemSelectedListener() {
+					@Override
+					public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-				if (Integer.parseInt(SETTINGS_STUDENT[6].toString()) == 1) {
-					new Task_Klasse().execute(true);
+						int student_plassering = spinner_navn.getSelectedItemPosition();
 
-				}
+						SETTINGS_STUDENT[2] = Loren_data[student_plassering][1]; // ID
+						SETTINGS_STUDENT[1] = Loren_data[student_plassering][2]; // Klasse
+						SETTINGS_STUDENT[0] = Loren_data[student_plassering][3]; // Navn
+
+						Toast.makeText(getApplicationContext(), SETTINGS_STUDENT[0].toString() + " har blitt valgt!", Toast.LENGTH_SHORT).show();
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> parentView) {
+					}
+
+				});
 			}
-
 		});
 
-		// Masse lort for live info om ukevalg
+		// Liveoppdatering fra ukebaren
 		uke_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 			@Override
@@ -154,14 +186,10 @@ public class Instillinger extends Activity {
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-
 			}
 
 		});
@@ -210,6 +238,7 @@ public class Instillinger extends Activity {
 			if (!SETTINGS_UKEPLAN[j].toString().equals("null"))
 				sbU.append(j + " " + kulStart + SETTINGS_UKEPLAN[j] + kulSlutt + "\n");
 		}
+		sbU.append("Domene: " + kulStart + SETTINGS_DOMAIN[0] + kulSlutt + "\n");
 		txt_info_ukeplan.setText("");
 		txt_info_ukeplan.append(sbU);
 	}
@@ -220,32 +249,20 @@ public class Instillinger extends Activity {
 
 	void loadStoredValues() {
 
-		if (lData.fileExist(EasyIO.SETTINGS_STUDENTER)) {
-			if (Integer.parseInt(SETTINGS_STUDENT[6].toString()) == 0) {
-				spinner_skole.setSelection(0);
-				spinner_klasse.setSelection(0);
-				spinner_student.setSelection(0);
+		if (eIO.fileExist(EasyIO.SETTINGS_STUDENTER)) {
+
+			if (isOnline()) {
+				spinner_skole.setSelection(Integer.parseInt(SETTINGS_STUDENT[3].toString()));
 			} else {
-				spinner_skole.setSelection(Integer.parseInt(SETTINGS_STUDENT[4].toString()));
-				spinner_klasse.setSelection(Integer.parseInt(SETTINGS_STUDENT[5].toString()));
-				spinner_student.setSelection(Integer.parseInt(SETTINGS_STUDENT[3].toString()));
+				spinner_skole.setSelection(0);
 			}
+
+			spinner_navn.setSelection(0);
 			spinner_ukemodus.setSelection(Integer.parseInt(SETTINGS_UKEPLAN[1].toString()));
 
-			switch (Integer.parseInt(SETTINGS_STUDENT[6].toString())) {
-			case 0:
-				chk_nett.setChecked(false);
-				break;
-			case 1:
-				chk_nett.setChecked(true);
-				break;
-			default:
-				chk_nett.setChecked(false);
-				break;
-			}
 		}
 
-		if (lData.fileExist(EasyIO.SETTINGS_UKEPLAN)) {
+		if (eIO.fileExist(EasyIO.SETTINGS_UKEPLAN)) {
 
 			uke_bar.setProgress(Integer.parseInt(SETTINGS_UKEPLAN[0].toString()));
 			spinner_ukemodus.setSelection((Integer.parseInt(SETTINGS_UKEPLAN[1].toString())));
@@ -273,67 +290,39 @@ public class Instillinger extends Activity {
 
 		SETTINGS_STUDENT = eIO.getTable(EasyIO.SETTINGS_STUDENTER);
 		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
+		SETTINGS_DOMAIN = eIO.getTable(EasyIO.SETTINGS_DOMAIN);
 
 	}
 
-	void loadArrayAdapters(boolean ve) {
+	void loadArrayAdapters() {
 
 		loadValuesArrays();
 
-		if (ve) {
-			if (Integer.parseInt(SETTINGS_STUDENT[6].toString()) == 0) {
+		spinner_adapter_ukemodus = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Høy", "Lav" });
 
-				spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { SETTINGS_STUDENT[7].toString() });
-				spinner_adapter_klasse = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { SETTINGS_STUDENT[1].toString() });
-
-				if (Integer.parseInt(SETTINGS_STUDENT[4].toString()) == 2) { // Strommen sine spesielle needs
-					spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
-
-				} else {
-					spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { SETTINGS_STUDENT[0].toString() });
-				}
-
-			} else {
-				if (isOnline()) {
-
-					spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Lørenskog", "Rælingen", "Strømmen" });
-					spinner_adapter_klasse = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnKlasseArray(isOnline()));
-					if (Integer.parseInt(SETTINGS_STUDENT[4].toString()) == 2) { // Strommen sine spesielle needs
-						spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
-
-					} else {
-						if (!SETTINGS_STUDENT[1].toString().equalsIgnoreCase("Fabeldyr")) {
-							spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnStudentArray(isOnline(), SETTINGS_STUDENT[1].toString()));
-							Log.e("NordViking", "Jeg prover aa laste den skitd" + SETTINGS_STUDENT[1].toString());
-
-						} else {
-							spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
-						}
-
-					}
-				} else {
-
-				}
-			}
-
-			spinner_adapter_ukemodus = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Høy", "Lav" });
-
-			// Automatisk spinneroppdatering
+		if (isOnline()) {
+			spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, PReq.returnSkoler("loren_skoleliste"));
 		} else {
-			if (isOnline()) {
-				spinner_adapter_klasse = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnKlasseArray(isOnline()));
-
-				if (Integer.parseInt(SETTINGS_STUDENT[8].toString()) == 2) { // Strommen sine spesielle needs
-					spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Fabeldyrene" });
-
-				} else {
-					spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lData.returnStudentArray(isOnline(), spinner_klasse.getSelectedItem().toString()));
-
-				}
-
-			}
-
+			spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Kunne ikke laste skoler" });
 		}
+
+		spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Søk for navn" });
+
+	}
+
+	void loadArrayAdapters(String[] loren_navn) {
+
+		loadValuesArrays();
+
+		spinner_adapter_ukemodus = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Høy", "Lav" });
+
+		if (isOnline()) {
+			spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, PReq.returnSkoler("loren_skoleliste"));
+		} else {
+			spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Kunne ikke laste skoler" });
+		}
+
+		spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, loren_navn);
 
 	}
 
@@ -348,32 +337,16 @@ public class Instillinger extends Activity {
 		// -----------------------------------------------------------------------------
 		if (isOnline()) {
 
-			if (Integer.parseInt(SETTINGS_STUDENT[6].toString()) == 1) {
+			// SETTINGS_STUDENT[0] = spinner_student.getSelectedItem().toString(); // Navn
+			// SETTINGS_STUDENT[1] = spinner_klasse.getSelectedItem().toString(); // Klasse
+			// SETTINGS_STUDENT[2] = spinner_klasse.getSelectedItem().toString(); // ID
+			SETTINGS_STUDENT[3] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Plass i spinner elev
+			// SETTINGS_STUDENT[4] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Plass i spinner skole
+			// SETTINGS_STUDENT[5] = Integer.toString(spinner_klasse.getSelectedItemPosition()); // Plass i spinner klasse
+			// SETTINGS_STUDENT[7] = spinner_skole.getSelectedItem().toString(); // Skole
+			// SETTINGS_STUDENT[8] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Spinner skole
 
-				SETTINGS_STUDENT[0] = spinner_student.getSelectedItem().toString(); // Navn
-				SETTINGS_STUDENT[1] = spinner_klasse.getSelectedItem().toString(); // Klasse
-				SETTINGS_STUDENT[3] = Integer.toString(spinner_student.getSelectedItemPosition()); // Plass i spinner elev
-				SETTINGS_STUDENT[4] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Plass i spinner skole
-				SETTINGS_STUDENT[5] = Integer.toString(spinner_klasse.getSelectedItemPosition()); // Plass i spinner klasse
-				SETTINGS_STUDENT[7] = spinner_skole.getSelectedItem().toString(); // Skole
-				SETTINGS_STUDENT[8] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Spinner skole
-
-			}
-
-			// Strommen fiks
-			if (Integer.parseInt(SETTINGS_STUDENT[8].toString()) == 2) {
-				SETTINGS_STUDENT[2] = lData.returnIdFromKlasse(isOnline(), SETTINGS_STUDENT[1].toString()); // ID
-
-			} else {
-				SETTINGS_STUDENT[2] = lData.returnIdFromName(isOnline(), spinner_student.getSelectedItem().toString()); // ID
-
-			}
 		}
-
-		if (chk_nett.isChecked())
-			SETTINGS_STUDENT[6] = "1"; // Skole
-		if (!chk_nett.isChecked())
-			SETTINGS_STUDENT[6] = "0"; // Skole
 
 		// -----------------------------------------------------------------------------
 		// Ukeplan
@@ -410,6 +383,23 @@ public class Instillinger extends Activity {
 		return false;
 	}
 
+	String returnRadioText() {
+
+		int selectedId = radio_sok.getCheckedRadioButtonId();
+		RadioButton rB = (RadioButton) findViewById(selectedId);
+
+		String resultat = rB.getText().toString();
+
+		if (resultat.equalsIgnoreCase("id"))
+			resultat = "StudentID";
+
+		return resultat;
+	}
+
+	// -----------------------------------------------------------------------------
+	// Purpose: Forskjellige oppgaver som kjører på egne tråder
+	// -----------------------------------------------------------------------------
+
 	private class Task_Lagre extends AsyncTask<Boolean, Integer, String> {
 
 		protected String doInBackground(Boolean... params) {
@@ -434,42 +424,11 @@ public class Instillinger extends Activity {
 		}
 	}
 
-	private class Task_Klasse extends AsyncTask<Boolean, Integer, String> {
-
-		protected String doInBackground(Boolean... params) {
-
-			loadArrayAdapters(false);
-
-			return "Padde";
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-
-			Toast.makeText(getApplicationContext(), "Kan ta litt tid!", Toast.LENGTH_SHORT).show();
-
-		}
-
-		protected void onPostExecute(String result) {
-			spinner_student.setAdapter(spinner_adapter_navn);
-
-			Toast.makeText(getApplicationContext(), "Lastet klassedata", Toast.LENGTH_SHORT).show();
-		}
-	}
-
 	private class Task_Skole extends AsyncTask<Boolean, Integer, String> {
 
 		protected String doInBackground(Boolean... params) {
 
-			Log.e("BADASS_skole_spinner", "Blir kalt ved start");
-
-			SETTINGS_STUDENT[8] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Plass i spinner skole
-			eIO.fileWrite(EasyIO.SETTINGS_STUDENTER, eIO.fromTable(SETTINGS_STUDENT));
-			Log.e("BADASS_skole_spinner", SETTINGS_STUDENT[8]);
-
-			loadArrayAdapters(false);
+			loadArrayAdapters();
 
 			return "Padde";
 		}
@@ -479,18 +438,57 @@ public class Instillinger extends Activity {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 
-			Toast.makeText(getApplicationContext(), "Kan ta litt tid!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Laster inn skoledata!", Toast.LENGTH_SHORT).show();
 
 		}
 
 		protected void onPostExecute(String result) {
-			spinner_skole.setAdapter(spinner_adapter_skole);
-			spinner_skole.setSelection(Integer.parseInt(SETTINGS_STUDENT[8].toString()));
-			spinner_klasse.setAdapter(spinner_adapter_klasse);
-			spinner_klasse.setSelection(1);
-			loadArrayAdapters(false);
-			spinner_student.setAdapter(spinner_adapter_navn);
+
 			Toast.makeText(getApplicationContext(), "Lastet skoledata", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private class Task_Sok extends AsyncTask<String, Integer, Integer> {
+
+		protected Integer doInBackground(String... params) {
+
+			String[] navnListe;
+
+			String tabell = spinner_skole.getSelectedItem().toString().trim();
+			String type = returnRadioText();
+			String search = params[0].toString();
+
+			Loren_data = PReq.request(tabell, "search", search, type);
+
+			navnListe = new String[Loren_data.length];
+			for (int i = 0; i < navnListe.length; i++) {
+				navnListe[i] = Loren_data[i][3];
+				Log.e("Sokenavnting!", navnListe[i]);
+			}
+
+			loadArrayAdapters(navnListe);
+			return navnListe.length;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+
+			Toast.makeText(getApplicationContext(), "Søker!", Toast.LENGTH_SHORT).show();
+
+		}
+
+		protected void onPostExecute(Integer result) {
+
+			if (result > 1) {
+				Toast.makeText(getApplicationContext(), "Søket gav " + result + " resultater!", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(), "Søket gav " + result + " resultat!", Toast.LENGTH_SHORT).show();
+			}
+
+			spinner_navn.setAdapter(spinner_adapter_navn);
+
 		}
 
 	}
@@ -500,11 +498,7 @@ public class Instillinger extends Activity {
 		protected String doInBackground(Boolean... params) {
 
 			loadValuesArrays(); // Fyll tabellene med lagret data
-
-			SETTINGS_STUDENT[8] = SETTINGS_STUDENT[4]; // Spinner skole
-			eIO.fileWrite(EasyIO.SETTINGS_STUDENTER, eIO.fromTable(SETTINGS_STUDENT));
-
-			loadArrayAdapters(true); // Last inn arrayadaptere
+			loadArrayAdapters(); // Last inn arrayadaptere
 
 			return "Padde";
 		}
@@ -513,18 +507,19 @@ public class Instillinger extends Activity {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			Toast.makeText(getApplicationContext(), "Laster verdier!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Laster inn lagrede verdier!", Toast.LENGTH_SHORT).show();
 
 		}
 
 		protected void onPostExecute(String result) {
 
 			spinner_skole.setAdapter(spinner_adapter_skole);
-			spinner_klasse.setAdapter(spinner_adapter_klasse);
-			spinner_student.setAdapter(spinner_adapter_navn);
+			//spinner_navn.setAdapter(spinner_adapter_navn);
 			spinner_ukemodus.setAdapter(spinner_adapter_ukemodus);
 			loadStoredValues(); // Last inn lagrede data til view elementer
 			setStatus(); // Oppdater status fra lokaldata
+
+			spinner_klar = true;
 
 			Toast.makeText(getApplicationContext(), "Lastet verdier!", Toast.LENGTH_SHORT).show();
 		}

@@ -17,7 +17,7 @@ import android.app.Activity;
 
 public class IO extends Activity {
 
-	public static final String FILE_LOCATION = Environment.getExternalStorageDirectory() + "/lorensjon/";
+	public static final String FILE_LOCATION = Environment.getExternalStorageDirectory() + "/loren/test/";
 	public static final String FILE_TYPE = ".dat";
 
 	public IO() {

@@ -48,7 +48,7 @@ public class Ukeplan_adapter extends BaseAdapter implements TitleProvider {
 		imgC = new ImageController();
 		Online = true;
 
-		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.getSettingsUkeplan());
+		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
 
 		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 		int droid_width = metrics.widthPixels;

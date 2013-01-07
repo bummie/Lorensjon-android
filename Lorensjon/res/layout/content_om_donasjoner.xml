@@ -9,7 +9,18 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Givv mmii moneyiizzz!"
+        android:layout_gravity="center"
+        android:text="Ønske om å gi støtte?"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-  
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="Støtte vil bidra til en
+        lengre levetid for denne tjenesten. 
+        
+        Støtte tas i mot via Paypal: seebzei@gmail.com" />
+
 </LinearLayout>

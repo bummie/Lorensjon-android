@@ -17,6 +17,13 @@
         android:background="@color/background"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
+        
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/techcat" />
 
 </LinearLayout>
