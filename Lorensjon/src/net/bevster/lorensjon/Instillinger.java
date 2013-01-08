@@ -47,9 +47,8 @@ public class Instillinger extends Activity {
 	Intent intent_menu;
 
 	String[] SETTINGS_STUDENT, SETTINGS_UKEPLAN, SETTINGS_DOMAIN;
-	String[][] Loren_data;
-
-	boolean spinner_klar = false;
+	String[][] Loren_data_student;
+	String[][] Loren_data_skole;
 
 	ViewFlow viewFlow;
 
@@ -57,7 +56,7 @@ public class Instillinger extends Activity {
 	SeekBar uke_bar;
 	Button btn_lagre, btn_sok;
 	RadioGroup radio_sok;
-	CheckBox chk_motd;
+	CheckBox chk_motd, chk_ukefiks;
 	TextView txt_info_ukeplan, txt_info_profil, txt_ukeplan;
 	EditText loren_sok_tekst;
 	ArrayAdapter<String> spinner_adapter_navn, spinner_adapter_skole, spinner_adapter_ukemodus;
@@ -110,6 +109,7 @@ public class Instillinger extends Activity {
 		// Sjekkboks for nett eller lokal henting av data-
 		// chk_nett = (CheckBox) findViewById(R.id.checkBox_profil_nett);
 		chk_motd = (CheckBox) findViewById(R.id.chk_motd);
+		chk_ukefiks = (CheckBox) findViewById(R.id.loren_check_ukefiks);
 
 	}
 
@@ -157,9 +157,9 @@ public class Instillinger extends Activity {
 
 						int student_plassering = spinner_navn.getSelectedItemPosition();
 
-						SETTINGS_STUDENT[2] = Loren_data[student_plassering][1]; // ID
-						SETTINGS_STUDENT[1] = Loren_data[student_plassering][2]; // Klasse
-						SETTINGS_STUDENT[0] = Loren_data[student_plassering][3]; // Navn
+						SETTINGS_STUDENT[2] = Loren_data_student[student_plassering][1]; // ID
+						SETTINGS_STUDENT[1] = Loren_data_student[student_plassering][2]; // Klasse
+						SETTINGS_STUDENT[0] = Loren_data_student[student_plassering][3]; // Navn
 
 						Toast.makeText(getApplicationContext(), SETTINGS_STUDENT[0].toString() + " har blitt valgt!", Toast.LENGTH_SHORT).show();
 					}
@@ -279,6 +279,18 @@ public class Instillinger extends Activity {
 				break;
 			}
 
+			switch (Integer.parseInt(SETTINGS_UKEPLAN[6].toString())) {
+			case 0:
+				chk_ukefiks.setChecked(false);
+				break;
+			case 1:
+				chk_ukefiks.setChecked(true);
+				break;
+			default:
+				chk_ukefiks.setChecked(false);
+				break;
+			}
+
 		}
 	}
 
@@ -354,12 +366,21 @@ public class Instillinger extends Activity {
 
 		SETTINGS_UKEPLAN[0] = Integer.toString(uke_bar.getProgress()); // Uke
 		SETTINGS_UKEPLAN[1] = Integer.toString(spinner_ukemodus.getSelectedItemPosition()); // Modus
+		SETTINGS_UKEPLAN[3] = Loren_data_skole[spinner_skole.getSelectedItemPosition()][1];
+		SETTINGS_UKEPLAN[4] = Loren_data_skole[spinner_skole.getSelectedItemPosition()][2];
+		SETTINGS_UKEPLAN[5] = Loren_data_skole[spinner_skole.getSelectedItemPosition()][3];
 
+		// MOTD
 		if (chk_motd.isChecked())
-			SETTINGS_UKEPLAN[2] = "1"; // MOTD
+			SETTINGS_UKEPLAN[2] = "1";
 		if (!chk_motd.isChecked())
-			SETTINGS_UKEPLAN[2] = "0"; // MOTD
+			SETTINGS_UKEPLAN[2] = "0";
 
+		// Ukefiks
+		if (chk_ukefiks.isChecked())
+			SETTINGS_UKEPLAN[6] = "1";
+		if (!chk_ukefiks.isChecked())
+			SETTINGS_UKEPLAN[6] = "0";
 		// -----------------------------------------------------------------------------
 		// Purpose: Write table to file
 		// -----------------------------------------------------------------------------
@@ -414,7 +435,7 @@ public class Instillinger extends Activity {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 
-			Toast.makeText(getApplicationContext(), "Kan ta litt tid!", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(getApplicationContext(), "Kan ta litt tid!", Toast.LENGTH_SHORT).show();
 
 		}
 
@@ -424,45 +445,28 @@ public class Instillinger extends Activity {
 		}
 	}
 
-	private class Task_Skole extends AsyncTask<Boolean, Integer, String> {
-
-		protected String doInBackground(Boolean... params) {
-
-			loadArrayAdapters();
-
-			return "Padde";
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-
-			Toast.makeText(getApplicationContext(), "Laster inn skoledata!", Toast.LENGTH_SHORT).show();
-
-		}
-
-		protected void onPostExecute(String result) {
-
-			Toast.makeText(getApplicationContext(), "Lastet skoledata", Toast.LENGTH_SHORT).show();
-		}
-	}
-
 	private class Task_Sok extends AsyncTask<String, Integer, Integer> {
 
 		protected Integer doInBackground(String... params) {
 
+			String tabell_pluss = "loren_tabell_";
+
 			String[] navnListe;
-
-			String tabell = spinner_skole.getSelectedItem().toString().trim();
+			String tabell = tabell_pluss + spinner_skole.getSelectedItem().toString().trim();
 			String type = returnRadioText();
-			String search = params[0].toString();
+			String search = PReq.utfTil(params[0].toString());
 
-			Loren_data = PReq.request(tabell, "search", search, type);
+			Loren_data_student = PReq.request(tabell, "search", search, type);
 
-			navnListe = new String[Loren_data.length];
+			navnListe = new String[Loren_data_student.length];
 			for (int i = 0; i < navnListe.length; i++) {
-				navnListe[i] = Loren_data[i][3];
+
+				if (Loren_data_student[i][3].equalsIgnoreCase("Navnfri")) {
+					navnListe[i] = Loren_data_student[i][2];
+				} else {
+					navnListe[i] = Loren_data_student[i][3];
+				}
+
 				Log.e("Sokenavnting!", navnListe[i]);
 			}
 
@@ -500,6 +504,8 @@ public class Instillinger extends Activity {
 			loadValuesArrays(); // Fyll tabellene med lagret data
 			loadArrayAdapters(); // Last inn arrayadaptere
 
+			Loren_data_skole = PReq.request("loren_skoleliste", "printfull", "", "");
+
 			return "Padde";
 		}
 
@@ -514,12 +520,10 @@ public class Instillinger extends Activity {
 		protected void onPostExecute(String result) {
 
 			spinner_skole.setAdapter(spinner_adapter_skole);
-			//spinner_navn.setAdapter(spinner_adapter_navn);
+			// spinner_navn.setAdapter(spinner_adapter_navn);
 			spinner_ukemodus.setAdapter(spinner_adapter_ukemodus);
 			loadStoredValues(); // Last inn lagrede data til view elementer
 			setStatus(); // Oppdater status fra lokaldata
-
-			spinner_klar = true;
 
 			Toast.makeText(getApplicationContext(), "Lastet verdier!", Toast.LENGTH_SHORT).show();
 		}

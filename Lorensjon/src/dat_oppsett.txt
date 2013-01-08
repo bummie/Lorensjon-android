@@ -26,7 +26,7 @@
 3 - Skolenavn - Tabellnavnet
 4 - SkoleID - Skolens ID
 5 - SkoleKode - Skolens kode
-6 -
+6 - Fiks for skoler som ikke tar i mot ukeparameter
 7 -
 8 -
 9 -
@@ -35,7 +35,12 @@
 
 0 - Domenenavnet: "bevster.net"
 
-
+Æ = &AElig;
+Ø = &Oslash;
+Å = &Aring;
+æ = &aelig; 
+ø = &oslash;
+å = &aring;
 
 
 

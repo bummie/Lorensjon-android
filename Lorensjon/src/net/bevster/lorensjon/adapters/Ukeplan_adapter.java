@@ -5,9 +5,8 @@
 package net.bevster.lorensjon.adapters;
 
 import net.bevster.lorensjon.R;
-import net.bevster.lorensjon.image.ImageController;
+import net.bevster.lorensjon.gfx.ImageController;
 import net.bevster.lorensjon.io.EasyIO;
-import net.bevster.lorensjon.io.IO;
 import net.bevster.lorensjon.url.UniformResourceLocator;
 
 import org.taptwo.android.widget.TitleProvider;

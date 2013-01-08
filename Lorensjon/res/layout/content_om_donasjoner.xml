@@ -6,21 +6,20 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/om_tekst_donasjon_tittel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Ønske om å gi støtte?"
+        android:text="Ønske om å støtte prosjektet?"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/om_tekst_donasjon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="Støtte vil bidra til en
-        lengre levetid for denne tjenesten. 
-        
-        Støtte tas i mot via Paypal: seebzei@gmail.com" />
+        android:maxLines="75"
+        android:scrollbars="vertical"
+        android:text="" />
 
 </LinearLayout>

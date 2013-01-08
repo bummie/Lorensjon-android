@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:gravity="fill_vertical|center|center_horizontal"
     android:orientation="vertical" >
-
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
@@ -18,7 +18,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="94dp"
-            android:text="Lørenskog VGS"
+            android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <ImageView
@@ -34,10 +34,9 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:text="(c)Bevster 2012" />
-
     </RelativeLayout>
 
 </LinearLayout>

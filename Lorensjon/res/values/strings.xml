@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Lørensjon</string>
+    <string name="app_name">Lorenplan</string>
     <string name="chk_ukemodus">Velg oppløsning!</string>
     <string name="chk_student">Finn ditt navn!</string>
     <string name="chk_skole">Finn skolen din!</string>

@@ -70,7 +70,7 @@ public class PHPRequest {
 
 					for (int x = 0; x < mengde[0]; x++) {
 
-						loren_array[i][x] = removetd(tds.get(x).toString());
+						loren_array[i][x] = utfFra(removetd(tds.get(x).toString()));
 						Log.e("reqToArray_Yup", "i: " + i + " x: " + x + " Info: " + loren_array[i][x].toString());
 					}
 					i++;
@@ -108,8 +108,6 @@ public class PHPRequest {
 		return mengde;
 	}
 
-	
-
 	public String removetd(String td) {
 
 		String fiks = td.replaceAll("<td>", "");
@@ -128,10 +126,38 @@ public class PHPRequest {
 		String[] skoleNavn = new String[resultat.length];
 
 		for (int i = 0; i < resultat.length; i++) {
-			skoleNavn[i] = resultat[i][1];
+			skoleNavn[i] = resultat[i][1].replace("loren_tabell_", "");
 			Log.e("skoleNavn", skoleNavn[i].toString());
 		}
 		return skoleNavn;
+	}
+
+	// -----------------------------------------------------------------------------
+	// Purpose: Fiks for Ae, /O og aa
+	// -----------------------------------------------------------------------------
+
+	public String utfTil(String in) {
+		String fiks = in;
+		String[] chars = { "Æ", "Ø", "Å", "æ", "ø", "å" };
+		String[] charsUTF = { "&AElig;", "&Oslash;", "&Aring;", "&aelig;", "&oslash;", "&aring;" };
+
+		for (int i = 0; i < charsUTF.length; i++) {
+			fiks = fiks.replaceAll(chars[i], charsUTF[i]);
+		}		
+		
+		return fiks;
+	}
+	
+	public String utfFra(String in) {
+		String fiks = in;
+		String[] chars = { "Æ", "Ø", "Å", "æ", "ø", "å" };
+		String[] charsUTF = { "&AElig;", "&Oslash;", "&Aring;", "&aelig;", "&oslash;", "&aring;" };
+
+		for (int i = 0; i < charsUTF.length; i++) {
+			fiks = fiks.replaceAll(charsUTF[i], chars[i]);
+		}		
+		
+		return fiks;
 	}
 
 }

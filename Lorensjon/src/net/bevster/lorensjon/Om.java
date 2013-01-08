@@ -27,7 +27,7 @@ public class Om extends Activity {
 
 	Intent intent_menu;
 
-	TextView txt_kred;
+	TextView txt_kred, txt_om, txt_don;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +60,20 @@ public class Om extends Activity {
 		// TODO Auto-generated method stub
 		super.onStart();
 
-		String takk = "Takk til følgene! \n\n\n Lithium Hosting - Hosting av database \n\n jSoup - Jonathan Hedley \n\n ViewFlow -  Patrik 'pakerfeldt' Åkerfeldt \n\n Actionbar - Johan 'johannilsson' Nilsson  \n\n Webviewer -  Nova Software \n\n Ikoner - 'brsev' \n\n 3rik -  Link til Rælingen VGS \n\n MCane -  Link til Strømmen VGS \n\n Google ;) \n\n\n Skål! \n\n ~Sebs";
+		// Vi elsker hardkoding!
+		
+		String Om_kreditt = "Takk til følgene! \n\n\n Lithium Hosting - Hosting av database \n\n jSoup - Jonathan Hedley \n\n ViewFlow -  Patrik 'pakerfeldt' Åkerfeldt \n\n Actionbar - Johan 'johannilsson' Nilsson  \n\n Webviewer -  Nova Software \n\n Ikoner - 'brsev' \n\n 3rik -  Link til Rælingen VGS \n\n MCane -  Link til Strømmen VGS\n\n Sindre -  Link til Lillestrøm VGS \n\n Google ;) \n\n\n Skål! - Sebsen";
+		String Om_om = "\nApplikasjonen her har blitt utviklet som et læringsprosjekt for min egen del og for et syn på manglende mobilstøtte for timeplanen.\n\nOm du ikke ønsker navnet ditt i databasen ta kontakt! Det skal blit fikset snaret mulig.\n\nMail: seebzei@gmail.com\nNett: www.bevster.net";
+		String Om_donasjon = "\nOm du av en eller annen grunn skulle ha et ønske om å gi litt støtte, så kan dette bli gjort!\nDonasjoner tas gjerne i mot via Paypal!\n\nPaypal: \"seebzei@gmail.com\"\n\nOpplysninger vil trolig være tilgjengelig på www.bevster.net.\n\nHa en fin dag!";
 
-		txt_kred = (TextView) findViewById(R.id.txt_kreditt);
-		txt_kred.setText(takk);
-
+		
+		txt_kred = (TextView) findViewById(R.id.om_tekst_kreditt);
+		txt_om = (TextView) findViewById(R.id.om_tekst_om);
+		txt_don = (TextView) findViewById(R.id.om_tekst_donasjon);
+		
+		txt_kred.setText(Om_kreditt);
+		txt_om.setText(Om_om);
+		txt_don.setText(Om_donasjon);
 	}
 
 	@Override
