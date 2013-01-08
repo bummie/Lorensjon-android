@@ -26,6 +26,8 @@ Actionbar - Johan Nilsson - Aka johannilsson - https://github.com/johannilsson
 
 Webviewer -  Nova Software
 
+MikeOrtiz - Zoomfunksjon
+
 
 
 Erek - Link til Rælingen VGS  
