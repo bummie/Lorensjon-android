@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/ukeplanbilde"
+    <net.bevster.lorensjon.gfx.TouchImageView
+        android:id="@+id/ukeplanbilde_zoom"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:src="@drawable/akershus_logo_96" />

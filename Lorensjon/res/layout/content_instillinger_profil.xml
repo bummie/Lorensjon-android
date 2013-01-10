@@ -50,9 +50,8 @@
         android:id="@+id/loren_sok_tekst"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" >
-
-        <requestFocus />
+        android:ems="10"
+        android:maxLines="1" >
     </EditText>
 
     <LinearLayout
@@ -89,7 +88,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Søk" />
-
     </LinearLayout>
 
     <Spinner

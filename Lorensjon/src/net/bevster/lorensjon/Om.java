@@ -12,6 +12,7 @@ import org.taptwo.android.widget.ViewFlow;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -61,16 +62,15 @@ public class Om extends Activity {
 		super.onStart();
 
 		// Vi elsker hardkoding!
-		
-		String Om_kreditt = "Takk til følgene! \n\n\n Lithium Hosting - Hosting av database \n\n jSoup - Jonathan Hedley \n\n ViewFlow -  Patrik 'pakerfeldt' Åkerfeldt \n\n Actionbar - Johan 'johannilsson' Nilsson  \n\n Webviewer -  Nova Software \n\n Ikoner - 'brsev' \n\n 3rik -  Link til Rælingen VGS \n\n MCane -  Link til Strømmen VGS\n\n Sindre -  Link til Lillestrøm VGS \n\n Google ;) \n\n\n Skål! - Sebsen";
-		String Om_om = "\nApplikasjonen her har blitt utviklet som et læringsprosjekt for min egen del og for et syn på manglende mobilstøtte for timeplanen.\n\nOm du ikke ønsker navnet ditt i databasen ta kontakt! Det skal blit fikset snaret mulig.\n\nMail: seebzei@gmail.com\nNett: www.bevster.net";
-		String Om_donasjon = "\nOm du av en eller annen grunn skulle ha et ønske om å gi litt støtte, så kan dette bli gjort!\nDonasjoner tas gjerne i mot via Paypal!\n\nPaypal: \"seebzei@gmail.com\"\n\nOpplysninger vil trolig være tilgjengelig på www.bevster.net.\n\nHa en fin dag!";
 
-		
+		String Om_kreditt = "\nLithium Hosting - Hosting av database \n\n jSoup - Jonathan Hedley \n\n ViewFlow -  Patrik 'pakerfeldt' Åkerfeldt \n\n Actionbar - Johan 'johannilsson' Nilsson  \n\n Webviewer -  Nova Software \n\n Ikoner - 'brsev' \n\n 3rik -  Link til Rælingen VGS \n\n MCane -  Link til Strømmen VGS\n\n Sindre -  Link til Lillestrøm VGS \n\n Google ;) \n\n\n Skål! - Sebsen";
+		String Om_om = "\n\nBRUKSANVISNING: www.bevster.net/lorenplan\n\nLorenplan startet som et lite prosjekt i slutten av 2012. Timeplanstøtten for mobile enheter var relativt dårlig, så som et læringsprosjekt tenkte jeg at jeg kunne skape en selv. Dette ble dermed gjort og etter en stund har det nå blitt til noe brukbart. Appklikasjonen er stadig under arbeid og alt som sees kan blir forandret.\n\nSliter du med å komme i gang?\n\nOm du sliter med å komme i gang og ikke er av den eksperimentelle personen, eller at du rett og slett ikke har all verden av tid kan du sjekke ut siden \"Komme i gang\" for informasjon om nettop dette!\nEksisterer ikke skolen din i systemet?\nFinner du ikke skolen din i systemet? Frykt ikke kjære deg, sjekk ut \"Mangler skolen din?\" siden for informasjon om timeplanen din er støttet!\nKontaktgrunnlag\n\nOm du av en eller annen grunn ikke ønsker å være i databasen må du for all del ta kontakt og dette vil bli fikset på. Føl også friheten til å foreslå endringer som kan bli gjort. Om du skulle komme over noen feil vill det også settes stor pris på om det ble meldt i fra om!\n\nKontaktopplysninger\n\nMail: seebzei@gmail.com \n\nITL: sebaber\n";
+		String Om_donasjon = "\nOm du av en eller annen grunn skulle ha et ønske om å gi litt støtte, så kan dette bli gjort!\nDonasjoner tas gjerne i mot via Paypal!\n\nPaypal: \"seebzei@gmail.com\"\n\nOpplysninger vil trolig være tilgjengelig på: \n\nwww.bevster.net/lorenplan.\n\nHa en fin dag!";
+
 		txt_kred = (TextView) findViewById(R.id.om_tekst_kreditt);
 		txt_om = (TextView) findViewById(R.id.om_tekst_om);
 		txt_don = (TextView) findViewById(R.id.om_tekst_donasjon);
-		
+
 		txt_kred.setText(Om_kreditt);
 		txt_om.setText(Om_om);
 		txt_don.setText(Om_donasjon);

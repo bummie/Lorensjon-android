@@ -7,6 +7,7 @@ package net.bevster.lorensjon;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.webkit.WebView;
 
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.IntentAction;
@@ -16,6 +17,8 @@ public class Nyheter extends Activity {
 	ActionBar actionBar;
 
 	Intent intent_menu;
+
+	WebView web;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,15 @@ public class Nyheter extends Activity {
 
 		actionBar.setTitle(R.string.app_name);
 		actionBar.setHomeAction(new IntentAction(Nyheter.this.getBaseContext(), intent_menu, R.drawable.akershus_logo_96));
+
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		web = (WebView) findViewById(R.id.webView1);
+		web.loadUrl("http://www.bevster.net/lorenplan");
 
 	}
 

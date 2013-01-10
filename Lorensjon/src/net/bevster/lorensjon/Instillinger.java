@@ -57,7 +57,7 @@ public class Instillinger extends Activity {
 	Button btn_lagre, btn_sok;
 	RadioGroup radio_sok;
 	CheckBox chk_motd, chk_ukefiks;
-	TextView txt_info_ukeplan, txt_info_profil, txt_ukeplan;
+	TextView txt_bruker, txt_klasse, txt_id, txt_skole, txt_uke, txt_skoleid, txt_ukeplan;
 	EditText loren_sok_tekst;
 	ArrayAdapter<String> spinner_adapter_navn, spinner_adapter_skole, spinner_adapter_ukemodus;
 
@@ -88,8 +88,14 @@ public class Instillinger extends Activity {
 		actionBar.setHomeAction(new IntentAction(Instillinger.this.getBaseContext(), intent_menu, R.drawable.akershus_logo_96));
 
 		// Laster inn tekst
-		txt_info_ukeplan = (TextView) findViewById(R.id.info_skole);
-		txt_info_profil = (TextView) findViewById(R.id.info_student);
+
+		txt_bruker = (TextView) findViewById(R.id.textView1);
+		txt_id = (TextView) findViewById(R.id.textView3);
+		txt_klasse = (TextView) findViewById(R.id.textView2);
+		txt_skole = (TextView) findViewById(R.id.textView4);
+		txt_uke = (TextView) findViewById(R.id.textView5);
+		txt_skoleid = (TextView) findViewById(R.id.textView6);
+
 		txt_ukeplan = (TextView) findViewById(R.id.info_ukeplan);
 
 		// Laster inn tekstfelt for sok
@@ -218,29 +224,20 @@ public class Instillinger extends Activity {
 
 		loadValuesArrays();
 
-		String kulStart = "( \"";
-		String kulSlutt = "\" )";
+		txt_bruker.setText("");
+		txt_id.setText("");
+		txt_klasse.setText("");
+		txt_skole.setText("");
+		txt_uke.setText("");
+		txt_skoleid.setText("");
 
-		StringBuilder sbP = new StringBuilder();
+		txt_bruker.append(SETTINGS_STUDENT[0]);
+		txt_id.append(SETTINGS_STUDENT[2]);
+		txt_klasse.append(SETTINGS_STUDENT[1]);
+		txt_skole.append(SETTINGS_UKEPLAN[3].replaceAll("loren_tabell_", ""));
+		txt_uke.append("Uke: " + SETTINGS_UKEPLAN[0]);
+		txt_skoleid.append(SETTINGS_UKEPLAN[4]);
 
-		for (int j = 0; j < SETTINGS_STUDENT.length; j++) {
-
-			if (!SETTINGS_STUDENT[j].toString().equals("null"))
-				sbP.append(j + " " + kulStart + SETTINGS_STUDENT[j] + kulSlutt + "\n");
-		}
-
-		txt_info_profil.setText("");
-		txt_info_profil.append(sbP);
-
-		StringBuilder sbU = new StringBuilder();
-
-		for (int j = 0; j < SETTINGS_UKEPLAN.length; j++) {
-			if (!SETTINGS_UKEPLAN[j].toString().equals("null"))
-				sbU.append(j + " " + kulStart + SETTINGS_UKEPLAN[j] + kulSlutt + "\n");
-		}
-		sbU.append("Domene: " + kulStart + SETTINGS_DOMAIN[0] + kulSlutt + "\n");
-		txt_info_ukeplan.setText("");
-		txt_info_ukeplan.append(sbU);
 	}
 
 	// -----------------------------------------------------------------------------

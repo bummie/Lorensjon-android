@@ -27,7 +27,7 @@
 4 - SkoleID - Skolens ID
 5 - SkoleKode - Skolens kode
 6 - Fiks for skoler som ikke tar i mot ukeparameter
-7 -
+7 - Zoommodus
 8 -
 9 -
 
@@ -42,6 +42,27 @@
 ø = &oslash;
 å = &aring;
 
+Kreditt
+
+Lithium Hosting - Hosting av database
+
+jSoup - Jonathan Hedley
+
+ViewFlow -  Patrik "pakerfeldt" Åkerfeldt
+
+Actionbar - Johan Nilsson - Aka johannilsson - https://github.com/johannilsson
+
+Webviewer -  Nova Software
+
+Ikoner - Token - brsev
+
+3rik -  Rælingen VGS
+
+Morgan Cane -  Strømmen VGS
+
+Sindre - Lillestrøm VGS
+
+Google ;)
 
 
 

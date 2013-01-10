@@ -13,13 +13,19 @@
         android:text="Ønske om å støtte prosjektet?"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/om_tekst_donasjon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:maxLines="75"
-        android:scrollbars="vertical"
-        android:text="" />
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/om_tekst_donasjon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:maxLines="75"
+            android:scrollbars="vertical"
+            android:text="" />
+    </ScrollView>
 
 </LinearLayout>

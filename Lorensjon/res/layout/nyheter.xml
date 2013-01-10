@@ -17,13 +17,11 @@
         android:background="@color/background"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
-        
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView1"
+    <WebView
+        android:id="@+id/webView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/techcat" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

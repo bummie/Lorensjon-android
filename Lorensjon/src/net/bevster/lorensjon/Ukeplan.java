@@ -12,6 +12,7 @@ import org.taptwo.android.widget.ViewFlow;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
@@ -48,6 +49,7 @@ public class Ukeplan extends Activity {
 		actionBar = (ActionBar) findViewById(R.id.actionbar);
 		actionBar.setTitle("Uke: " + SETTINGS_UKEPLAN[0].toString());
 		actionBar.setHomeAction(new IntentAction(Ukeplan.this.getBaseContext(), intent_menu, R.drawable.akershus_logo_96));
+		actionBar.addAction(new net.bevster.lorensjon.actions.Zoom());
 
 		viewFlow = (ViewFlow) findViewById(R.id.viewflow);
 		Ukeplan_adapter adapter = new Ukeplan_adapter(this);
@@ -69,4 +71,5 @@ public class Ukeplan extends Activity {
 		Ukeplan.this.finish();
 
 	}
+
 }

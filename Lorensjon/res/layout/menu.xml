@@ -23,7 +23,7 @@
             <Button
                 android:id="@+id/btn_nyheter"
                 style="@style/DashboardButton"
-                android:drawableTop="@drawable/nyheter_util"
+                android:drawableTop="@drawable/nyheter"
                 android:text="@string/dash_nyheter" />
 
             <Button

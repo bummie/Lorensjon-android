@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,7 +34,7 @@ public class HovedAktivitet extends Activity {
 
 	EasyIO eIO;
 	PHPRequest PReq;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,53 +68,83 @@ public class HovedAktivitet extends Activity {
 		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
 
 		PReq = new PHPRequest();
-		
-		btn_nyheter.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			/*	 btn_nyheter.setBackgroundColor(Color.argb(120, 46, 136, 158));
 
-				 setContentView(R.layout.loading);
-				 Intent myIntent = new Intent(HovedAktivitet.this, Nyheter.class);
-				 HovedAktivitet.this.startActivity(myIntent);
-				 HovedAktivitet.this.finish();
-			*/
-				Toast.makeText(getApplicationContext(), "Ikke tilgjengelig!", Toast.LENGTH_SHORT).show();
+		btn_nyheter.setOnTouchListener((new View.OnTouchListener() {
 
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					btn_nyheter.setBackgroundColor(Color.argb(120, 46, 136, 158));
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					btn_nyheter.setBackgroundColor(Color.argb(0, 0, 0, 0));
+					setContentView(R.layout.loading);
+					Intent myIntent = new Intent(HovedAktivitet.this, Nyheter.class);
+					HovedAktivitet.this.startActivity(myIntent);
+					HovedAktivitet.this.finish();
+				}
+
+				return false;
 			}
-		});
-		btn_ukeplan.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				btn_ukeplan.setBackgroundColor(Color.argb(120, 46, 136, 158));
 
-				setContentView(R.layout.loading);
-				Intent myIntent = new Intent(HovedAktivitet.this, Ukeplan.class);
-				HovedAktivitet.this.startActivity(myIntent);
-				HovedAktivitet.this.finish();
+		}));
+		btn_om.setOnTouchListener((new View.OnTouchListener() {
 
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					btn_om.setBackgroundColor(Color.argb(120, 46, 136, 158));
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					btn_om.setBackgroundColor(Color.argb(0, 0, 0, 0));
+					setContentView(R.layout.loading);
+					Intent myIntent = new Intent(HovedAktivitet.this, Om.class);
+					HovedAktivitet.this.startActivity(myIntent);
+					HovedAktivitet.this.finish();
+				}
+
+				return false;
 			}
-		});
-		btn_om.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				btn_om.setBackgroundColor(Color.argb(120, 46, 136, 158));
 
-				setContentView(R.layout.loading);
-				Intent myIntent = new Intent(HovedAktivitet.this, Om.class);
-				HovedAktivitet.this.startActivity(myIntent);
-				HovedAktivitet.this.finish();
+		}));
+		btn_instillinger.setOnTouchListener((new View.OnTouchListener() {
 
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					btn_instillinger.setBackgroundColor(Color.argb(120, 46, 136, 158));
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					btn_om.setBackgroundColor(Color.argb(0, 0, 0, 0));
+					setContentView(R.layout.loading);
+					Intent myIntent = new Intent(HovedAktivitet.this, Instillinger.class);
+					HovedAktivitet.this.startActivity(myIntent);
+					HovedAktivitet.this.finish();
+				}
+
+				return false;
 			}
-		});
-		btn_instillinger.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				btn_instillinger.setBackgroundColor(Color.argb(120, 46, 136, 158));
 
-				setContentView(R.layout.loading);
-				Intent myIntent = new Intent(HovedAktivitet.this, Instillinger.class);
-				HovedAktivitet.this.startActivity(myIntent);
-				HovedAktivitet.this.finish();
+		}));
+		btn_ukeplan.setOnTouchListener((new View.OnTouchListener() {
 
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					btn_ukeplan.setBackgroundColor(Color.argb(120, 46, 136, 158));
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					btn_ukeplan.setBackgroundColor(Color.argb(0, 0, 0, 0));
+					setContentView(R.layout.loading);
+					Intent myIntent = new Intent(HovedAktivitet.this, Ukeplan.class);
+					HovedAktivitet.this.startActivity(myIntent);
+					HovedAktivitet.this.finish();
+				}
+
+				return false;
 			}
-		});
+
+		}));
 
 		new Task_MOTD().execute(Integer.parseInt(SETTINGS_UKEPLAN[2].toString()) == 1, isOnline());
 
@@ -136,7 +167,7 @@ public class HovedAktivitet extends Activity {
 			String mld = "Ingen melding";
 
 			Log.w("Task_MOTD", Boolean.toString(params[0]));
-			
+
 			if (params[0]) {
 				if (params[1]) {
 

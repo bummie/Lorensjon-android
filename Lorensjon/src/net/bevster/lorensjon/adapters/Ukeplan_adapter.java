@@ -136,7 +136,6 @@ public class Ukeplan_adapter extends BaseAdapter implements TitleProvider {
 			bilde.setImageResource(R.drawable.akershus_logo_96);
 		}
 
-		// bilde.setImageResource(R.drawable.akershus_logo_96);
 		return convertView;
 	}
 
