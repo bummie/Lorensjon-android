@@ -28,11 +28,11 @@ Webviewer -  Nova Software
 
 MikeOrtiz - Zoomfunksjon
 
+famfamfa - Silc icons - http://www.famfamfam.com
 
+3rik - Link til Rælingen VGS  
 
-Erek - Link til Rælingen VGS  
-
-CANE -  Link til Strømmen VGS
+Morgan Cane -  Link til Strømmen VGS
 
 Sindre - Link til Lillestrøm VGS
 
