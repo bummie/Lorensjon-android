@@ -26,16 +26,19 @@ Actionbar - Johan Nilsson - Aka johannilsson - https://github.com/johannilsson
 
 Webviewer -  Nova Software
 
+Ikoner - Token - brsev
+
 MikeOrtiz - Zoomfunksjon
 
-famfamfa - Silc icons - http://www.famfamfam.com
+famfamfam - Silc icons - http://www.famfamfam.com
 
-3rik - Link til Rælingen VGS  
+3rik -  Rælingen VGS
 
-Morgan Cane -  Link til Strømmen VGS
+Morgan Cane -  Strømmen VGS
 
-Sindre - Link til Lillestrøm VGS
+Sindre - Lillestrøm VGS
 
-Google ;)
+Google
+
 
 
