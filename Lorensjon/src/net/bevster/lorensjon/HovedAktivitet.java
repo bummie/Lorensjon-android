@@ -4,6 +4,8 @@
 
 package net.bevster.lorensjon;
 
+import java.util.Random;
+
 import net.bevster.lorensjon.io.EasyIO;
 import net.bevster.lorensjon.url.PHPRequest;
 import android.app.Activity;
@@ -31,6 +33,7 @@ public class HovedAktivitet extends Activity {
 	TextView txt_nyhet;
 
 	String[] SETTINGS_UKEPLAN;
+	String[] SETTINGS_STUDENT;
 
 	EasyIO eIO;
 	PHPRequest PReq;
@@ -41,12 +44,9 @@ public class HovedAktivitet extends Activity {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 		setContentView(R.layout.menu);
+		eIO = new EasyIO();
 
 		actionBar = (ActionBar) findViewById(R.id.actionbar);
-
-		actionBar.setTitle(R.string.app_name);
-		// actionBar.setHomeAction(new Home());
-
 		btn_nyheter = (Button) findViewById(R.id.btn_nyheter);
 		btn_ukeplan = (Button) findViewById(R.id.btn_ukeplan);
 		btn_om = (Button) findViewById(R.id.btn_om);
@@ -64,8 +64,18 @@ public class HovedAktivitet extends Activity {
 		// TODO Auto-generated method stub
 		super.onStart();
 
-		eIO = new EasyIO();
 		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
+		SETTINGS_STUDENT = eIO.getTable(EasyIO.SETTINGS_STUDENTER);
+
+		if (eIO.fileExist(EasyIO.SETTINGS_UKEPLAN)) {
+
+			if (SETTINGS_STUDENT[0].equalsIgnoreCase("0")) {
+				actionBar.setTitle(R.string.app_name);
+			} else {
+				actionBar.setTitle(getSetning());
+
+			}
+		}
 
 		PReq = new PHPRequest();
 
@@ -146,8 +156,23 @@ public class HovedAktivitet extends Activity {
 
 		}));
 
-		new Task_MOTD().execute(Integer.parseInt(SETTINGS_UKEPLAN[2].toString()) == 1, isOnline());
+		if (eIO.fileExist(EasyIO.SETTINGS_UKEPLAN)) {
+			new Task_MOTD().execute(Integer.parseInt(SETTINGS_UKEPLAN[2].toString()) == 1, isOnline());
+		}
 
+	}
+
+	public String getSetning() {
+
+		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
+		SETTINGS_STUDENT = eIO.getTable(EasyIO.SETTINGS_STUDENTER);
+
+		String[] setninger = { "Velkommen - " + SETTINGS_STUDENT[0]
+		// "Trives du på " + SETTINGS_UKEPLAN[3].replaceAll("loren_tabell_", "") + " VGS?", "Vi er i uke: " + SETTINGS_UKEPLAN[0], SETTINGS_UKEPLAN[3].replaceAll("loren_tabell_", "") + " VGS er topp!", SETTINGS_STUDENT[0] + " er best!",
+		// SETTINGS_UKEPLAN[2], "Følg med i timen " + SETTINGS_STUDENT[0], SETTINGS_STUDENT[2], SETTINGS_STUDENT[1] + " er noen glupinger!"
+		};
+
+		return setninger[0]; // [new Random().nextInt(setninger.length)];
 	}
 
 	public boolean isOnline() {

@@ -18,6 +18,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -352,8 +353,13 @@ public class Instillinger extends Activity {
 			SETTINGS_STUDENT[3] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Plass i spinner elev
 			// SETTINGS_STUDENT[4] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Plass i spinner skole
 			// SETTINGS_STUDENT[5] = Integer.toString(spinner_klasse.getSelectedItemPosition()); // Plass i spinner klasse
-			// SETTINGS_STUDENT[7] = spinner_skole.getSelectedItem().toString(); // Skole
-			// SETTINGS_STUDENT[8] = Integer.toString(spinner_skole.getSelectedItemPosition()); // Spinner skole
+
+			DisplayMetrics metrics = getApplicationContext().getResources().getDisplayMetrics();
+			int droid_width = metrics.widthPixels;
+			int droid_height = metrics.heightPixels;
+
+			SETTINGS_STUDENT[6] = Integer.toString(droid_width); // Skole
+			SETTINGS_STUDENT[7] = Integer.toString(droid_height); // Spinner skole
 
 		}
 
@@ -363,9 +369,13 @@ public class Instillinger extends Activity {
 
 		SETTINGS_UKEPLAN[0] = Integer.toString(uke_bar.getProgress()); // Uke
 		SETTINGS_UKEPLAN[1] = Integer.toString(spinner_ukemodus.getSelectedItemPosition()); // Modus
-		SETTINGS_UKEPLAN[3] = Loren_data_skole[spinner_skole.getSelectedItemPosition()][1];
-		SETTINGS_UKEPLAN[4] = Loren_data_skole[spinner_skole.getSelectedItemPosition()][2];
-		SETTINGS_UKEPLAN[5] = Loren_data_skole[spinner_skole.getSelectedItemPosition()][3];
+
+		if (Loren_data_skole != null && isOnline()) {
+
+			SETTINGS_UKEPLAN[3] = Loren_data_skole[spinner_skole.getSelectedItemPosition()][1];
+			SETTINGS_UKEPLAN[4] = Loren_data_skole[spinner_skole.getSelectedItemPosition()][2];
+			SETTINGS_UKEPLAN[5] = Loren_data_skole[spinner_skole.getSelectedItemPosition()][3];
+		}
 
 		// MOTD
 		if (chk_motd.isChecked())
@@ -510,7 +520,7 @@ public class Instillinger extends Activity {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			Toast.makeText(getApplicationContext(), "Laster inn lagrede verdier!", Toast.LENGTH_SHORT).show();
+			setStatus(); // Oppdater status fra lokaldata
 
 		}
 
@@ -520,7 +530,6 @@ public class Instillinger extends Activity {
 			// spinner_navn.setAdapter(spinner_adapter_navn);
 			spinner_ukemodus.setAdapter(spinner_adapter_ukemodus);
 			loadStoredValues(); // Last inn lagrede data til view elementer
-			setStatus(); // Oppdater status fra lokaldata
 
 			Toast.makeText(getApplicationContext(), "Lastet verdier!", Toast.LENGTH_SHORT).show();
 		}

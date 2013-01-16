@@ -16,9 +16,10 @@
         android:layout_height="match_parent" >
 
         <net.bevster.lorensjon.gfx.TouchImageView
-            android:id="@+id/ukeplanbilde"
+            android:id="@+id/loren_ukeplanbilde"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/view1"
             android:src="@drawable/akershus_logo_96" />
 
         <View
