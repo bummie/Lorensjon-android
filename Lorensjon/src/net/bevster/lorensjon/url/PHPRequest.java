@@ -1,6 +1,8 @@
-package net.bevster.lorensjon.url;
+//-----------------------------------------------------------------------------
+// Bevster 2012 - Kos deg unge and!
+//-----------------------------------------------------------------------------
 
-// Loren
+package net.bevster.lorensjon.url;
 import net.bevster.lorensjon.io.EasyIO;
 
 import android.util.Log;
@@ -63,6 +65,9 @@ public class PHPRequest {
 
 		try {
 			loren_document = Jsoup.connect(adresse).get();
+
+			//Log.w("DOKUMENT", loren_document.toString());
+
 			for (Element table : loren_document.select("table").select("table")) {
 				int i = 0;
 				for (Element row : table.select("tr")) {
@@ -71,7 +76,7 @@ public class PHPRequest {
 					for (int x = 0; x < mengde[0]; x++) {
 
 						loren_array[i][x] = utfFra(removetd(tds.get(x).toString()));
-						Log.e("reqToArray_Yup", "i: " + i + " x: " + x + " Info: " + loren_array[i][x].toString());
+						// Log.e("reqToArray_Yup", "i: " + i + " x: " + x + " Info: " + loren_array[i][x].toString());
 					}
 					i++;
 				}
@@ -137,17 +142,18 @@ public class PHPRequest {
 	// -----------------------------------------------------------------------------
 
 	public String utfTil(String in) {
-		String fiks = in;
+		String fiks = in.substring(0, 1).toUpperCase() + in.substring(1).toLowerCase();
 		String[] chars = { "Æ", "Ø", "Å", "æ", "ø", "å" };
-		String[] charsUTF = { "&AElig;", "&Oslash;", "&Aring;", "&aelig;", "&oslash;", "&aring;" };
+		String[] charsUTF = { "AElig", "Oslash", "Aring", "aelig", "oslash", "aring" };
 
 		for (int i = 0; i < charsUTF.length; i++) {
+
 			fiks = fiks.replaceAll(chars[i], charsUTF[i]);
-		}		
-		
+		}
+
 		return fiks;
 	}
-	
+
 	public String utfFra(String in) {
 		String fiks = in;
 		String[] chars = { "Æ", "Ø", "Å", "æ", "ø", "å" };
@@ -155,8 +161,8 @@ public class PHPRequest {
 
 		for (int i = 0; i < charsUTF.length; i++) {
 			fiks = fiks.replaceAll(charsUTF[i], chars[i]);
-		}		
-		
+		}
+
 		return fiks;
 	}
 

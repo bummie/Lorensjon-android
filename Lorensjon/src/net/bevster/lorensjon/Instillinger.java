@@ -57,7 +57,7 @@ public class Instillinger extends Activity {
 	SeekBar uke_bar;
 	Button btn_lagre, btn_sok;
 	RadioGroup radio_sok;
-	CheckBox chk_motd, chk_ukefiks;
+	CheckBox chk_motd, chk_ukefiks, chk_autouke, chk_offline;
 	TextView txt_bruker, txt_klasse, txt_id, txt_skole, txt_uke, txt_skoleid, txt_ukeplan;
 	EditText loren_sok_tekst;
 	ArrayAdapter<String> spinner_adapter_navn, spinner_adapter_skole, spinner_adapter_ukemodus;
@@ -117,7 +117,8 @@ public class Instillinger extends Activity {
 		// chk_nett = (CheckBox) findViewById(R.id.checkBox_profil_nett);
 		chk_motd = (CheckBox) findViewById(R.id.chk_motd);
 		chk_ukefiks = (CheckBox) findViewById(R.id.loren_check_ukefiks);
-
+		chk_autouke = (CheckBox) findViewById(R.id.loren_check_autouke);
+		chk_offline = (CheckBox) findViewById(R.id.loren_check_offline);
 	}
 
 	@Override
@@ -166,7 +167,12 @@ public class Instillinger extends Activity {
 
 						SETTINGS_STUDENT[2] = Loren_data_student[student_plassering][1]; // ID
 						SETTINGS_STUDENT[1] = Loren_data_student[student_plassering][2]; // Klasse
-						SETTINGS_STUDENT[0] = Loren_data_student[student_plassering][3]; // Navn
+
+						if (Loren_data_student[student_plassering][3].charAt(0) == ' ') {
+							SETTINGS_STUDENT[0] = Loren_data_student[student_plassering][3].substring(1); // Navn
+						} else {
+							SETTINGS_STUDENT[0] = Loren_data_student[student_plassering][3]; // Navn
+						}
 
 						Toast.makeText(getApplicationContext(), SETTINGS_STUDENT[0].toString() + " har blitt valgt!", Toast.LENGTH_SHORT).show();
 					}
@@ -265,6 +271,7 @@ public class Instillinger extends Activity {
 			uke_bar.setProgress(Integer.parseInt(SETTINGS_UKEPLAN[0].toString()));
 			spinner_ukemodus.setSelection((Integer.parseInt(SETTINGS_UKEPLAN[1].toString())));
 
+			// MOTD
 			switch (Integer.parseInt(SETTINGS_UKEPLAN[2].toString())) {
 			case 0:
 				chk_motd.setChecked(false);
@@ -277,6 +284,7 @@ public class Instillinger extends Activity {
 				break;
 			}
 
+			// Ukefis
 			switch (Integer.parseInt(SETTINGS_UKEPLAN[6].toString())) {
 			case 0:
 				chk_ukefiks.setChecked(false);
@@ -286,6 +294,32 @@ public class Instillinger extends Activity {
 				break;
 			default:
 				chk_ukefiks.setChecked(false);
+				break;
+			}
+
+			// Autouke
+			switch (Integer.parseInt(SETTINGS_UKEPLAN[7].toString())) {
+			case 0:
+				chk_autouke.setChecked(false);
+				break;
+			case 1:
+				chk_autouke.setChecked(true);
+				break;
+			default:
+				chk_autouke.setChecked(false);
+				break;
+			}
+
+			// Offlinemodus
+			switch (Integer.parseInt(SETTINGS_UKEPLAN[9].toString())) {
+			case 0:
+				chk_offline.setChecked(false);
+				break;
+			case 1:
+				chk_offline.setChecked(true);
+				break;
+			default:
+				chk_offline.setChecked(false);
 				break;
 			}
 
@@ -324,14 +358,10 @@ public class Instillinger extends Activity {
 
 		loadValuesArrays();
 
-		spinner_adapter_ukemodus = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Høy", "Lav" });
-
-		if (isOnline()) {
-			spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, PReq.returnSkoler("loren_skoleliste"));
-		} else {
-			spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Kunne ikke laste skoler" });
-		}
-
+		/* spinner_adapter_ukemodus = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Høy", "Lav" });
+		 * 
+		 * if (isOnline()) { spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, PReq.returnSkoler("loren_skoleliste")); } else { spinner_adapter_skole = new ArrayAdapter<String>(this,
+		 * android.R.layout.simple_spinner_item, new String[] { "Kunne ikke laste skoler" }); } */
 		spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, loren_navn);
 
 	}
@@ -388,6 +418,19 @@ public class Instillinger extends Activity {
 			SETTINGS_UKEPLAN[6] = "1";
 		if (!chk_ukefiks.isChecked())
 			SETTINGS_UKEPLAN[6] = "0";
+
+		// Autmatisk uke
+		if (chk_autouke.isChecked())
+			SETTINGS_UKEPLAN[7] = "1";
+		if (!chk_autouke.isChecked())
+			SETTINGS_UKEPLAN[7] = "0";
+
+		// Offlinemodus
+		if (chk_offline.isChecked())
+			SETTINGS_UKEPLAN[9] = "1";
+		if (!chk_offline.isChecked())
+			SETTINGS_UKEPLAN[9] = "0";
+
 		// -----------------------------------------------------------------------------
 		// Purpose: Write table to file
 		// -----------------------------------------------------------------------------
@@ -461,8 +504,18 @@ public class Instillinger extends Activity {
 			String[] navnListe;
 			String tabell = tabell_pluss + spinner_skole.getSelectedItem().toString().trim();
 			String type = returnRadioText();
-			String search = PReq.utfTil(params[0].toString());
+			String search = PReq.utfTil(params[0].toString()); // params[0].toString(); // PReq.utfTil(params[0].toString());
 
+			search = search.replaceAll("  ", "");
+			Log.e("LENGDE_SOK_1", Integer.toString(search.length()));
+			if (search.charAt(search.length() - 1) == ' ') {
+				Log.e("LENGDE_SOK_2", Integer.toString(search.length()));
+				search = search.substring(0, search.length() - 1);
+				Log.e("LENGDE_SOK_3", Integer.toString(search.length()));
+			}
+			Log.e("LENGDE_SOK_4", Integer.toString(search.length()));
+
+			Log.i("Loren_SOK", "Tabell:" + tabell + " Sokeord: " + search + " Type: " + type);
 			Loren_data_student = PReq.request(tabell, "search", search, type);
 
 			navnListe = new String[Loren_data_student.length];
@@ -474,9 +527,8 @@ public class Instillinger extends Activity {
 					navnListe[i] = Loren_data_student[i][3];
 				}
 
-				Log.e("Sokenavnting!", navnListe[i]);
 			}
-
+			Log.e("NavntilAdapter: ", Integer.toString(navnListe.length));
 			loadArrayAdapters(navnListe);
 			return navnListe.length;
 		}
@@ -492,7 +544,7 @@ public class Instillinger extends Activity {
 
 		protected void onPostExecute(Integer result) {
 
-			if (result > 1) {
+			if (result != 1) {
 				Toast.makeText(getApplicationContext(), "Søket gav " + result + " resultater!", Toast.LENGTH_SHORT).show();
 			} else {
 				Toast.makeText(getApplicationContext(), "Søket gav " + result + " resultat!", Toast.LENGTH_SHORT).show();

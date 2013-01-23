@@ -134,21 +134,23 @@ public class ImageController {
 
 		Bitmap Hovedplan = bm;
 		Bitmap[] Timedager = new Bitmap[5];
+		if (Hovedplan != null) {
+			for (int i = 0; i < Timedager.length; i++) {
 
-		for (int i = 0; i < Timedager.length; i++) {
+				int bilde_lengdedel = (i * Hovedplan.getWidth() / 5) - i;
 
-			int bilde_lengdedel = (i * Hovedplan.getWidth() / 5) - i;
+				Log.i("BEVSTER_BILDE_KUTT_INFO", "X: " + bilde_lengdedel + " Breddeplan " + (i * Hovedplan.getWidth()) + "Bredde: " + Hovedplan.getWidth() / 5 + " Height: " + Hovedplan.getHeight());
 
-			Log.i("BEVSTER_BILDE_KUTT_INFO", "X: " + bilde_lengdedel + " Breddeplan " + (i * Hovedplan.getWidth()) + "Bredde: " + Hovedplan.getWidth() / 5 + " Height: " + Hovedplan.getHeight());
+				Timedager[i] = Bitmap.createBitmap(Hovedplan, bilde_lengdedel, 0, Hovedplan.getWidth() / 5, Hovedplan.getHeight());
 
-			Timedager[i] = Bitmap.createBitmap(Hovedplan, bilde_lengdedel, 0, Hovedplan.getWidth() / 5, Hovedplan.getHeight());
+			}
 
+			Log.w("BEVSTER_LOREN_BILDE", Timedager.toString());
+
+			return Timedager;
+		} else {
+			return null;
 		}
-
-		Log.w("BEVSTER_LOREN_BILDE", Timedager.toString());
-
-		return Timedager;
-
 	}
 
 	public Bitmap getBitmap(String _url) {

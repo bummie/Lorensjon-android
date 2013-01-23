@@ -4,7 +4,8 @@
 
 package net.bevster.lorensjon;
 
-import java.util.Random;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import net.bevster.lorensjon.io.EasyIO;
 import net.bevster.lorensjon.url.PHPRequest;
@@ -158,6 +159,11 @@ public class HovedAktivitet extends Activity {
 
 		if (eIO.fileExist(EasyIO.SETTINGS_UKEPLAN)) {
 			new Task_MOTD().execute(Integer.parseInt(SETTINGS_UKEPLAN[2].toString()) == 1, isOnline());
+
+			if (SETTINGS_UKEPLAN[7].equalsIgnoreCase("1")) {
+				new Task_Autouke().execute();
+			}
+
 		}
 
 	}
@@ -167,12 +173,19 @@ public class HovedAktivitet extends Activity {
 		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
 		SETTINGS_STUDENT = eIO.getTable(EasyIO.SETTINGS_STUDENTER);
 
-		String[] setninger = { "Velkommen - " + SETTINGS_STUDENT[0]
+		String[] setninger = { "Uke: " + SETTINGS_UKEPLAN[0] + " | " + SETTINGS_STUDENT[0], "Du vet det er helg, " + SETTINGS_STUDENT[0] + "?" };
 		// "Trives du på " + SETTINGS_UKEPLAN[3].replaceAll("loren_tabell_", "") + " VGS?", "Vi er i uke: " + SETTINGS_UKEPLAN[0], SETTINGS_UKEPLAN[3].replaceAll("loren_tabell_", "") + " VGS er topp!", SETTINGS_STUDENT[0] + " er best!",
 		// SETTINGS_UKEPLAN[2], "Følg med i timen " + SETTINGS_STUDENT[0], SETTINGS_STUDENT[2], SETTINGS_STUDENT[1] + " er noen glupinger!"
-		};
 
-		return setninger[0]; // [new Random().nextInt(setninger.length)];
+		if (SETTINGS_UKEPLAN[8].equalsIgnoreCase("7") || SETTINGS_UKEPLAN[8].equalsIgnoreCase("1")) {
+
+			return setninger[1]; // [new Random().nextInt(setninger.length)];
+
+		} else {
+
+			return setninger[0]; // [new Random().nextInt(setninger.length)];
+
+		}
 	}
 
 	public boolean isOnline() {
@@ -189,14 +202,19 @@ public class HovedAktivitet extends Activity {
 
 		protected String doInBackground(Boolean... params) {
 
-			String mld = "Ingen melding";
+			String mld = null;
 
 			Log.w("Task_MOTD", Boolean.toString(params[0]));
 
 			if (params[0]) {
 				if (params[1]) {
 
-					mld = PReq.request("loren_motd", "printfull", "", "")[0][0].toString();
+					String motd[][] = PReq.request("loren_motd", "printfull", "", "");
+					if (motd != null) {
+						mld = motd[0][0].toString();
+					} else {
+						mld = "Shiet database nede!";
+					}
 
 				} else {
 					mld = "Intet nettverk!";
@@ -206,6 +224,9 @@ public class HovedAktivitet extends Activity {
 				mld = "Vil du ikke ha spennende meldinger?";
 			}
 
+			if (mld == null) {
+				mld = "Shieet, database er nede!";
+			}
 			return mld;
 		}
 
@@ -213,6 +234,33 @@ public class HovedAktivitet extends Activity {
 
 			txt_nyhet.setText("");
 			txt_nyhet.append(result);
+
+		}
+
+	}
+
+	private class Task_Autouke extends AsyncTask<Boolean, Boolean, Integer> {
+
+		protected Integer doInBackground(Boolean... params) {
+
+			int currentWeek = new GregorianCalendar().get(Calendar.WEEK_OF_YEAR);
+			int currentDay = new GregorianCalendar().get(Calendar.DAY_OF_WEEK);
+
+			SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
+			SETTINGS_STUDENT = eIO.getTable(EasyIO.SETTINGS_STUDENTER);
+
+			SETTINGS_UKEPLAN[8] = Integer.toString(currentDay);
+			SETTINGS_UKEPLAN[0] = Integer.toString(currentWeek);
+
+			eIO.fileWrite(EasyIO.SETTINGS_UKEPLAN, eIO.fromTable(SETTINGS_UKEPLAN));
+
+			return currentDay;
+
+		}
+
+		protected void onPostExecute(Integer result) {
+
+			// Toast.makeText(getApplicationContext(), Integer.toString(result), Toast.LENGTH_SHORT).show();
 
 		}
 

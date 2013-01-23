@@ -5,7 +5,7 @@
     <color name="actionbar_background_start">#134343</color>
     <color name="actionbar_background_end">#1F6C7F</color>
  
-    <color name="background_light">#1F6C7F</color>
+    <color name="background_light">#333333</color>
     <color name="background">#111111</color>
   
     <color name="dash_color_text">#FFFFFF</color>

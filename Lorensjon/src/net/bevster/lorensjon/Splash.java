@@ -13,7 +13,7 @@ import android.view.MotionEvent;
 
 public class Splash extends Activity {
 
-	int _splashTime = 1500;
+	int _splashTime = 1000;
 	boolean _active = true;
 	Intent myIntent;
 

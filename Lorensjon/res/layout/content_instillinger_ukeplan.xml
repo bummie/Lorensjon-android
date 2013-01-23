@@ -50,6 +50,32 @@
         android:prompt="@string/chk_ukemodus" />
 
     <TextView
+        android:id="@+id/Txt_offline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hente planenene kun fra nettet?"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <CheckBox
+        android:id="@+id/loren_check_offline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Laste kun fra nettet?" />
+
+    <TextView
+        android:id="@+id/Txt_offline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hente uke automatisk?"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <CheckBox
+        android:id="@+id/loren_check_autouke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Automatisk uke" />
+
+    <TextView
         android:id="@+id/TextView01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,6 +92,6 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sjekk denne kun om planen laster en gul side! Om det ikke eksisterer et slikt problem kan problemer føre med ved sjekking!" />
+        android:text="Sjekk denne kun om planen laster en gul side! Sjekk ut bevster.net/lorenplan om du er usikker!" />
 
 </LinearLayout>

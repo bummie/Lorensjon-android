@@ -8,47 +8,81 @@
     <com.markupartist.android.widget.ActionBar
         android:id="@+id/actionbar"
         style="@style/ActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:title="Seb" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent" >
 
+        <View
+            android:id="@+id/view1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/txt_view"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/actionbar_background_end" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/txt_view"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="25dp"
+            android:background="@color/background" />
+
         <net.bevster.lorensjon.google.DashboardLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:background="@color/background" >
+            android:layout_above="@+id/txt_view" >
 
             <Button
                 android:id="@+id/btn_nyheter"
                 style="@style/DashboardButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:drawableTop="@drawable/nyheter"
                 android:text="@string/dash_nyheter" />
 
             <Button
                 android:id="@+id/btn_ukeplan"
                 style="@style/DashboardButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:drawableTop="@drawable/ukeplan"
                 android:text="@string/dash_ukeplan" />
 
             <Button
                 android:id="@+id/btn_om"
                 style="@style/DashboardButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:drawableTop="@drawable/om"
                 android:text="@string/dash_om" />
 
             <Button
                 android:id="@+id/btn_instillinger"
                 style="@style/DashboardButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:drawableTop="@drawable/instillinger"
                 android:text="@string/dash_instillinger" />
         </net.bevster.lorensjon.google.DashboardLayout>
 
         <View
-            android:id="@+id/view1"
+            android:id="@+id/txt_view"
             android:layout_width="fill_parent"
-            android:layout_height="58dp"
+            android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@color/actionbar_background_end" >

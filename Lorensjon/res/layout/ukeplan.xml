@@ -19,51 +19,62 @@
             android:id="@+id/loren_ukeplanbilde"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/view1"
-            android:src="@drawable/akershus_logo_96" />
+            android:layout_above="@+id/view1" />
 
         <View
             android:id="@+id/view1"
             android:layout_width="fill_parent"
-            android:layout_height="58dp"
+            android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@color/actionbar_background_end" >
         </View>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" >
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" >
 
             <Button
                 android:id="@+id/knapp_man"
+                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:text="Mandag" />
 
             <Button
                 android:id="@+id/knapp_tir"
+                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:text="Tirsdag" />
 
             <Button
                 android:id="@+id/knapp_ons"
+                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:text="Onsdag" />
 
             <Button
                 android:id="@+id/knapp_tor"
+                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:text="Torsdag" />
 
             <Button
                 android:id="@+id/knapp_fre"
+                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:text="Fredag" />
         </LinearLayout>
     </RelativeLayout>

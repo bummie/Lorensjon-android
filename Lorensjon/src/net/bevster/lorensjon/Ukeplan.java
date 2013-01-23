@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -72,6 +73,8 @@ public class Ukeplan extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+		// if()
 
 		ukePlanListe = null;
 
@@ -216,18 +219,25 @@ public class Ukeplan extends Activity {
 
 		protected Integer doInBackground(Boolean... params) {
 
+			SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
+
 			int i = 0;
-			if (imgCon.getLagretPlan() != null) {
+			if (imgCon.getLagretPlan() != null && SETTINGS_UKEPLAN[9].equalsIgnoreCase("0")) {
 				imgCon.lagreBitmapCache("timeplan_cache", imgCon.getLagretPlan());
+				ukePlanListe = imgCon.delDager(imgCon.getCachedPlan());
 				i = 0;
 			} else if (imgCon.getUkeplan() != null && isOnline()) {
 				imgCon.lagreBitmapCache("timeplan_cache", imgCon.getUkeplan());
+				ukePlanListe = imgCon.delDager(imgCon.getCachedPlan());
 				i = 1;
-			} else {
+			} else if (imgCon.getCachedPlan() != null) {
 				i = 2;
+				ukePlanListe = imgCon.delDager(imgCon.getCachedPlan());
+			} else {
+				i = 3;
+
 			}
 
-			ukePlanListe = imgCon.delDager(imgCon.getCachedPlan());
 			return i;
 		}
 
@@ -247,22 +257,92 @@ public class Ukeplan extends Activity {
 		protected void onPostExecute(Integer result) {
 			super.onPostExecute(result);
 
-			if (result == 0)
-				Toast.makeText(getApplicationContext(), "Lastet lagret plan!", Toast.LENGTH_SHORT).show();
-			if (result == 1)
-				Toast.makeText(getApplicationContext(), "Lastet plan fra internettet!", Toast.LENGTH_SHORT).show();
-			if (result == 2)
-				Toast.makeText(getApplicationContext(), "Eeh!", Toast.LENGTH_SHORT).show();
+			SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
 
-			btn_man.setEnabled(false);
-			btn_tir.setEnabled(true);
-			btn_ons.setEnabled(true);
-			btn_tor.setEnabled(true);
-			btn_fre.setEnabled(true);
-			ukeplanBilde.setImageBitmap(ukePlanListe[0]);
+			int dag = 0;
+			dag = Integer.parseInt(SETTINGS_UKEPLAN[8].trim());
+
+			// Fiks for dagene 1 = Søndag, 2 = Mandag ++++
+			while (dag > 6) {
+				dag--;
+			}
+			if (dag <= 1) {
+				dag = 0;
+			} else {
+				dag -= 2;
+			}
+
+			Log.e("Ukeplan_dag", Integer.toString(dag));
+
+			if (result == 0) {
+				Toast.makeText(getApplicationContext(), "Lastet lagret plan!", Toast.LENGTH_SHORT).show();
+				if (ukePlanListe != null)
+					ukeplanBilde.setImageBitmap(ukePlanListe[dag]);
+
+			}
+			if (result == 1) {
+				Toast.makeText(getApplicationContext(), "Lastet plan fra internettet!", Toast.LENGTH_SHORT).show();
+				if (ukePlanListe != null)
+					ukeplanBilde.setImageBitmap(ukePlanListe[dag]);
+
+			}
+			if (result == 2) {
+				Toast.makeText(getApplicationContext(), "Eeh!", Toast.LENGTH_SHORT).show();
+				if (ukePlanListe != null)
+					ukeplanBilde.setImageBitmap(ukePlanListe[dag]);
+
+			}
+			if (result == 3) {
+				Toast.makeText(getApplicationContext(), "Artig, noe gikk visstnok galt!", Toast.LENGTH_SHORT).show();
+
+			}
+
+			switch (dag) {
+			case 0:
+				btn_man.setEnabled(false);
+				btn_tir.setEnabled(true);
+				btn_ons.setEnabled(true);
+				btn_tor.setEnabled(true);
+				btn_fre.setEnabled(true);
+				break;
+			case 1:
+				btn_man.setEnabled(true);
+				btn_tir.setEnabled(false);
+				btn_ons.setEnabled(true);
+				btn_tor.setEnabled(true);
+				btn_fre.setEnabled(true);
+				break;
+			case 2:
+				btn_man.setEnabled(true);
+				btn_tir.setEnabled(true);
+				btn_ons.setEnabled(false);
+				btn_tor.setEnabled(true);
+				btn_fre.setEnabled(true);
+				break;
+			case 3:
+				btn_man.setEnabled(true);
+				btn_tir.setEnabled(true);
+				btn_ons.setEnabled(true);
+				btn_tor.setEnabled(false);
+				btn_fre.setEnabled(true);
+				break;
+			case 4:
+				btn_man.setEnabled(true);
+				btn_tir.setEnabled(true);
+				btn_ons.setEnabled(true);
+				btn_tor.setEnabled(true);
+				btn_fre.setEnabled(false);
+				break;
+			default:
+				btn_man.setEnabled(false);
+				btn_tir.setEnabled(true);
+				btn_ons.setEnabled(true);
+				btn_tor.setEnabled(true);
+				btn_fre.setEnabled(true);
+				break;
+			}
 
 		}
-
 	}
 
 }
