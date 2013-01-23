@@ -9,9 +9,22 @@
 <body>
 <?php include('menu.php');?>
 
+<h2>Støttede skoler</h2>
+ - Lørenskog<br>
+ - Rælingen<br>
+ - Mailand<br>
+ - Strømmen<br>
+ - Lillestrøm<br>
+ - Kongsbakken<br>
+ Klikk <a href='skolemangel.php'><span>her</span></a> om skolen din mangler! <br>
+
+
+<h2>Video</h2>
+<iframe width="853" height="480" src="http://www.youtube.com/embed/84K7QrqkZOY" frameborder="0" allowfullscreen></iframe>
+
 <h2>Velkommen</h2>
 
-<p>Lorenplan startet som et lite prosjekt i slutten av 2012. Timeplanstøtten for mobile enheter var relativt dårlig, så som et læringsprosjekt tenkte jeg at jeg kunne skape en selv. Dette ble dermed gjort og etter en stund har det nå blitt til noe brukbart. Appklikasjonen er stadig under arbeid, kom gjerne med forslag om endringer!</p>
+<p>Lorenplan startet som et lite prosjekt i slutten av 2012. Timeplanstøtten for mobile enheter var relativt dårlig, så som et læringsprosjekt tenkte jeg at jeg kunne skape en selv. Dette ble dermed gjort og etter en stund har det nå blitt til noe brukbart. Applikasjonen er stadig under arbeid, kom gjerne med forslag om endringer!</p>
 
 <h4>Sliter du med å komme i gang?</h4>
 
@@ -30,7 +43,8 @@
 <b>ITL</b>: sebaber<br>
 
 </body>
+
 <footer>
-<center><h5> <a href="http://www.bevster.net/">Bevster</a> (c) 2012 </h5></center>
+<?php include('lor_footer.php'); ?>
 </footer>
 </html>

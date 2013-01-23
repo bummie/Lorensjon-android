@@ -8,6 +8,12 @@
 echo '<a href="index.php" target="_blank"><img src="content/lorenplan_banner.png" width="512" height="250" /></a>';
 ?>
 
+<meta property="og:title" content="Lorenplan" />
+<meta property="og:type" content="product" />
+<meta property="og:url" content="http://www.bevster.net/lorenplan/" />
+<meta property="og:image" content="http://www.bevster.net/lorenplan/content/lorenplan_banner.png" />
+<meta property="og:site_name" content="Lorenplan" />
+<meta property="fb:admins" content="100004003603685" />
 
 <div id='cssmenu'>
 <ul>

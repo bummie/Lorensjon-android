@@ -8,6 +8,8 @@
 <body>
 <?php include('menu.php');?>
 
+<h2>Video</h2>
+<iframe width="853" height="480" src="http://www.youtube.com/embed/84K7QrqkZOY" frameborder="0" allowfullscreen></iframe>
 
 <h2>Kom i gang!</h2>
 <p>Om du sliter med å komme i gang med bruk av applikasjonen vil du finne en liten guide under! Om du ikke skulle bli tilfredsstilt av informasjonen på denne siden så ta gjerne kontakt.</p>
@@ -57,6 +59,6 @@
 
 </body>
 <footer>
-<center><h5> <a href="http://www.bevster.net/">Bevster</a> (c) 2012 </h5></center>
+<?php include('lor_footer.php'); ?>
 </footer>
 </html>

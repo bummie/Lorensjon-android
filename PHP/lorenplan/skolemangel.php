@@ -26,6 +26,6 @@ for deg som har en likedan timeplan og ønsker at applikasjonen skal støtte den
 
 </body>
 <footer>
-<center><h5> <a href="http://www.bevster.net/">Bevster</a> (c) 2012 </h5></center>
+<?php include('lor_footer.php'); ?>
 </footer>
 </html>

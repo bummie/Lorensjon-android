@@ -4,8 +4,8 @@
 <head>
     <title>Loren - Grabber</title>
 
-<h2> Masse deilig data!</h2>
-<h5><a href="loren_grabber_verdier.php">Tilbake</a></h5>
+
+    <?php include_once("googstat.php") ?>
 
 </head>
 
@@ -13,10 +13,9 @@
 
 <?php
         set_include_path(dirname(__FILE__)."/../");
-        include('simple_html_dom.php');
-        include('lorensql/loren_php_sql.php');
-        include('ut/loren_ut_func.php');
-        echo get_include_path();
+        include_once('simple_html_dom.php');
+        include_once('lorensql/loren_php_sql.php');
+        include_once('ut/loren_ut_func.php');
 
 
         // Skoledata
@@ -32,22 +31,34 @@
          $database = $_POST["db"];  
          $tabell = $_POST["tabell"];  
 
-        echo '<b>Skoleid: </b>' . $skoleid . '<br>';
-        echo '<b>Skolekode: </b>' . $skolekode . '<br>';
-        echo '<b>Type: </b>' . $skoletype . '<br>';
-        echo '<b>Host: </b>' . $host . '<br>';
-        echo '<b>Brukernavn: </b>' . $brukernavn . '<br>';
-        echo '<b>Database: </b>' . $database . '<br>';
-        echo '<b>Tabell: </b>' . $tabell . '<br>';
+       
 
-        $studentTabell = studentListArray();
 
-        fiksetTabell($studentTabell);
+            if (isset($_POST['btn_new'])) {
+                $studentTabell = studentListArray(returnRefKode($skoleid, $skolekode), $skoleid, $skolekode, $skoletype);
+                fiksetTabell($studentTabell);
+                skapSkoleTabell($host, $brukernavn, $passord, $database, $tabell, $skoleid, $skolekode, $studentTabell);
+                echo "<h2> Masse deilig data!</h2>";
+                echo "<h5><a href=\"loren_grabber_verdier.php\">Tilbake</a></h5>";
 
-        skapSkoleTabell($host, $brukernavn, $passord, $database, $tabell, $skoleid, $skolekode, $studentTabell);
+                echo '<b>Skoleid: </b>' . $skoleid . '<br>';
+                echo '<b>Skolekode: </b>' . $skolekode . '<br>';
+                echo '<b>Type: </b>' . $skoletype . '<br>';
+                echo '<b>Host: </b>' . $host . '<br>';
+                echo '<b>Brukernavn: </b>' . $brukernavn . '<br>';
+                echo '<b>Database: </b>' . $database . '<br>';
+                echo '<b>Tabell: </b>' . $tabell . '<br>';
+            } else if (isset($_POST['btn_update'])) {
+            
+            oppdaterTabellene($host, $brukernavn, $passord, $database, $tabell, $skoleid, $skolekode);
 
-        function returnRefKode(){
-            global $skoleid, $skolekode;
+            }  else {
+                //echo "Beep boop beep";
+            }       
+
+       
+
+        function returnRefKode($skoleid, $skolekode){
 
             // Vi blir sendt videre av Novakarene fra Svenskelandet. For aa komme oss forbi denne stumpen tar vi med oss id'en og slikt og slikt
             // Det funker, ikke spor hvordan. Det bare gjor det!
@@ -70,10 +81,10 @@
         
 
 
-function studentListArray(){
+function studentListArray($refkode, $skolensid, $skolenskode, $skolenstype){
             global $skoleid, $skolekode, $skoletype, $host, $brukernavn, $passord, $database, $tabell, $skoleid, $skolekode;
 
-            $adresse = 'http://www.novasoftware.se/webviewer/(S(' . returnRefKode() . '))/MZDesign1.aspx?schoolid=' . $skoleid.'&code=' . $skolekode . '&type=' . $skoletype;
+            $adresse = 'http://www.novasoftware.se/webviewer/(S(' . $refkode . '))/MZDesign1.aspx?schoolid=' . $skolensid.'&code=' . $skolenskode . '&type=' . $skolenstype;
             $html = file_get_html($adresse);
 
             echo '<p> <b>Adresse: </b> <a href="' . $adresse . '">' . $adresse .'</a></p>';

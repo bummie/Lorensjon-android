@@ -3,6 +3,8 @@
 <html>
 <head>
     <title>Loren - GrabberVerdier</title>
+    	<?php include_once("googstat.php") ?>
+
 </head>
 
 <body>
@@ -22,8 +24,8 @@ Passord: <input type="password" name="pass" value=""><br>
 Database: <input type="text" name="db" value="_loren_db"><br>
 Tabell: <input type="text" name="tabell" value="Skole"><br>
 
-<input type="Submit" name="Submit"> <br>
-
+<input type="Submit" name="btn_new" value="Ny skole"> <br>
+<input type="Submit" name="btn_update" value="Oppdater alle"> <br>
 
 <?php  
 
@@ -41,9 +43,8 @@ $passord = getPassword();
 $tabell = "loren_skoleliste";
 
 printFullTabell($tabell);
-//printSearch("loren_tabell_lorenskog", "1", "Klasse");
-printSpec("loren_tabell_lorenskog", "Navn");
-//dynamic_args("loren_tabell_lorenskog", "StudentID", "Navn", "KeyID");
+//printFullTabell("loren_antall_besokne");
+
 
 ?>
 
