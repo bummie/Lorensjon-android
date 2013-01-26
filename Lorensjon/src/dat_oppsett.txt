@@ -5,14 +5,14 @@
 
 // Studenter
 
-0 - Navnet på student: "Berge, Sebastian"
+0 - Navnet pï¿½ student: "Berge, Sebastian"
 1 - Klassen til student: "1STB" 
 2 - Studentens ID: "2123D-4864768-556454"
 3 - Plass i spinner: Skole
 4 - 		//Plass i spinner: Skole
 5 -				//Plass i spinner: Klasse
 6 - Mobilens bredde			//Nettverk - Laste liste fra nettet: Checkbox
-7 - Mobilens høyde			//Navn på skole valgt i spinner
+7 - Mobilens hï¿½yde			//Navn pï¿½ skole valgt i spinner
 8 - 
 9 - 
 
@@ -34,43 +34,3 @@
 // Domain
 
 0 - Domenenavnet: "bevster.net"
-
-Æ = &AElig;
-Ø = &Oslash;
-Å = &Aring;
-æ = &aelig; 
-ø = &oslash;
-å = &aring;
-
-Kreditt
-
-Lithium Hosting - Hosting av database
-
-jSoup - Jonathan Hedley
-
-ViewFlow -  Patrik "pakerfeldt" Åkerfeldt
-
-Actionbar - Johan Nilsson - Aka johannilsson - https://github.com/johannilsson
-
-Webviewer -  Nova Software
-
-Ikoner - Token - brsev
-
-MikeOrtiz - Zoomfunksjon
-
-famfamfam - Silc icons - http://www.famfamfam.com
-
-3rik -  Rælingen VGS
-
-Morgan Cane -  Strømmen VGS
-
-Sindre - Lillestrøm VGS
-
-Google
-
-
-
-
-
-
-
