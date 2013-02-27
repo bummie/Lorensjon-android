@@ -1,5 +1,7 @@
 //-----------------------------------------------------------------------------
 // Bevster 2012 - Kos deg unge and!
+//
+// Denne klassen er ikke i bruk.
 //-----------------------------------------------------------------------------
 
 package net.bevster.lorensjon.io;
@@ -202,7 +204,7 @@ public class LokalData extends EasyIO {
 
 	void loadValues() {
 		SETTINGS_STUDENT = eIO.getTable(EasyIO.SETTINGS_STUDENTER); // 0 = Navn, 1 = Klasse, 2 = UkeplanID, 3 = Plassering i spinner
-		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);// 0 = Uke, 1 = Modus(1 Egen, 2 High, 3 low), 2 = Bredde, 3 = Høyde
+		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);// 0 = Uke, 1 = Modus(1 Egen, 2 High, 3 low), 2 = Bredde, 3 = Hï¿½yde
 	}
 
 }
