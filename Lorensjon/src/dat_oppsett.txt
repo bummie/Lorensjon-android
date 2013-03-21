@@ -34,3 +34,13 @@
 // Domain
 
 0 - Domenenavnet: "bevster.net"
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+>>>>>>> Newset commit

@@ -31,8 +31,6 @@
          $database = $_POST["db"];  
          $tabell = $_POST["tabell"];  
 
-       
-
 
             if (isset($_POST['btn_new'])) {
                 $studentTabell = studentListArray(returnRefKode($skoleid, $skolekode), $skoleid, $skolekode, $skoletype);
@@ -72,7 +70,7 @@
 
         $idting = substr($element->href, 18, 24); //returnerer id'en vi er på utkikk etter! 
         echo '<b>Webview-ID: </b>' . $idting . '<br>';
-        echo "<p>Seb</p><br>";
+        echo "<b>Seb</b><br>";
 
             return $idting;
         }
@@ -87,7 +85,8 @@ function studentListArray($refkode, $skolensid, $skolenskode, $skolenstype){
             $adresse = 'http://www.novasoftware.se/webviewer/(S(' . $refkode . '))/MZDesign1.aspx?schoolid=' . $skolensid.'&code=' . $skolenskode . '&type=' . $skolenstype;
             $html = file_get_html($adresse);
 
-            echo '<p> <b>Adresse: </b> <a href="' . $adresse . '">' . $adresse .'</a></p>';
+            echo "<b>[STUDENT_GRABBER]: </b>";
+            echo '<b>Adresse: </b> <a href="' . $adresse . '">' . $adresse .'</a><br>';
 
             $opt = $html->find('option');
           
@@ -146,10 +145,5 @@ function studentListArray($refkode, $skolensid, $skolenskode, $skolenstype){
 ?>
 
 </body>
-
-
-<footer>
-<center><h5> <a href="http://www.bevster.net/">Bevster</a> (c) 2012 </h5></center>
-</footer>
 
 </html>

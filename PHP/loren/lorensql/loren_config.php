@@ -4,10 +4,10 @@
 // Config - Bevster 2013
 
 //Database
-$LOR_HOST = "";
+$LOR_HOST = "localhost";
 $LOR_DATABASE = "";
-$LOR_USERNAME = "";
-$LOR_PASSWORD = "";
+$LOR_USERNAME = "lorenskogwoo";
+$LOR_PASSWORD = "smask";
 
 //Getters
 function getHost(){

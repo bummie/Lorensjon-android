@@ -13,7 +13,7 @@ global $tabell_constant;
 $tabell_loren_navn;
 $tabell_loren_skoleid;
 $tabell_loren_skolekode;
-$loren_type_antall = 4;
+$loren_type_antall = 7;
 
 $tabell_navn = $tabell_constant.$tabellen;
 
@@ -26,60 +26,52 @@ if($tabellen == null || $tabellen == "" ){
             echo "<b>Oppdaterer alle tabellene!</b><br>";
 
         foreach ($tabell_skolenavn as $rows => $row) {
-              echo "Row: " . $row . "<br>";
+              echo "<b>[TABELL_START]</b>  <br>";
             if($tabell_loren_navn != null){
               dropTable($host, $brukernavn, $passord, $database, $tabell_loren_navn);
               for ($k=0; $k < $loren_type_antall; $k++) { 
-                // echo "Fattern";
-                 addStudent($host, $brukernavn, $passord, $database, $tabell_loren_navn, studentListArray(returnRefKode($tabell_loren_skoleid, $tabell_loren_skolekode), $tabell_loren_skoleid, $tabell_loren_skolekode, $k), false);
+
+                if($tabell_loren_navn == "loren_tabell_raelingen" || $tabell_loren_navn == "raelingen" || $tabell_loren_navn == "loren_tabell_mailand" || $tabell_loren_navn == "mailand"){
+                   addStudent($host, $brukernavn, $passord, $database, $tabell_loren_navn, studentListArray(returnRefKode($tabell_loren_skoleid, $tabell_loren_skolekode), $tabell_loren_skoleid, $tabell_loren_skolekode, 0), false);
+                    break;
+                 }else{
+                   addStudent($host, $brukernavn, $passord, $database, $tabell_loren_navn, studentListArray(returnRefKode($tabell_loren_skoleid, $tabell_loren_skolekode), $tabell_loren_skoleid, $tabell_loren_skolekode, $k), false);
+                }
+
               }
             }
             $i = 0;
             foreach ($row as $col => $cell) {
-              echo "Celle: " . $cell . $i . "<br>";
+              echo "<b>Celle: </b>" . $cell . $i . "<br>";
             if($i == 1){$tabell_loren_navn = $cell;
-              echo "Tabellnavn: " . $tabell_loren_navn. "<br>";
+              echo "<b>Tabellnavn: </b>" . $tabell_loren_navn. "<br>";
 
             }
             if($i == 2){$tabell_loren_skoleid = $cell;
-              echo "SkoleID: " . $tabell_loren_skoleid. "<br>";
+              echo "<b>SkoleID: </b>" . $tabell_loren_skoleid. "<br>";
             }
             if($i == 3){$tabell_loren_skolekode = $cell;
-              echo "Skolekode: " . $tabell_loren_skolekode. "<br>";
-
+              echo "<b>Skolekode: </b>" . $tabell_loren_skolekode. "<br>";
             }
-              $i++;
+
+            $i++; 
         }
-
-          echo "Row: " . $row . "<br>";
-            if($tabell_loren_navn != null){
-              dropTable($host, $brukernavn, $passord, $database, $tabell_loren_navn);
-              for ($k=0; $k < $loren_type_antall; $k++) { 
-                // echo "Fattern";
-                 addStudent($host, $brukernavn, $passord, $database, $tabell_loren_navn, studentListArray(returnRefKode($tabell_loren_skoleid, $tabell_loren_skolekode), $tabell_loren_skoleid, $tabell_loren_skolekode, $k), false);
-              }
-            }
-         } 
+    } 
   }else{
             echo "<b>Oppdaterer</b>: " . $tabell_navn . "<br>";
 
             if($tabell_navn != null){
               dropTable($host, $brukernavn, $passord, $database, $tabell_navn);
-              for ($k=0; $k < $loren_type_antall; $k++) { 
-                 addStudent($host, $brukernavn, $passord, $database, $tabell_navn, studentListArray(returnRefKode($skoid, $skokode), $skoid, $skokode, $k), false);
+               for ($k=0; $k < $loren_type_antall; $k++) { 
+                if($tabell_loren_navn == "loren_tabell_raelingen" || $tabell_loren_navn == "raelingen"){
+                   addStudent($host, $brukernavn, $passord, $database, $tabell_loren_navn, studentListArray(returnRefKode($tabell_loren_skoleid, $tabell_loren_skolekode), $tabell_loren_skoleid, $tabell_loren_skolekode, 0), false);
+                    break;
+                 }else{
+                   addStudent($host, $brukernavn, $passord, $database, $tabell_loren_navn, studentListArray(returnRefKode($tabell_loren_skoleid, $tabell_loren_skolekode), $tabell_loren_skoleid, $tabell_loren_skolekode, $k), false);
+                }
               }
-            }
   }
-
-
-//if(!tableEkist($host, $brukernavn, $passord, $database, $tabell_navn)){
-  //  echo "OppdaterTabell: Tabell eksisterer ikke: " . $tabell_navn . "<br>";
-
-  //}else{
-
-    //echo $tabell_navn . " esksisterer allerede!<br>";
-  //}
-
+ }
 }
 
 function skapSkoleTabell($host, $brukernavn, $passord, $database, $tabell, $skoleid, $skolekode, $liste){
@@ -135,6 +127,9 @@ $db_con = new PDO(sprintf('mysql:dbname=%s;host=%s',
     } catch(PDOException $e) {
     echo 'ERROR: ' . $e->getMessage();
     }
+
+    echo "<b>Droppet: </b><i>" . $tabell . "</i><br>";
+
  
 }
 
@@ -260,7 +255,7 @@ return $ekistere;
 }
 
 
-function addSearchResult($host, $brukernavn, $passord, $database, $tabell, $search, $type){
+function addSearchResult($host, $brukernavn, $passord, $database, $tabell, $search, $type, $sTabell, $suks){
 
 try{
 $db_con = new PDO(sprintf('mysql:dbname=%s;host=%s', 
@@ -275,7 +270,7 @@ $db_con = new PDO(sprintf('mysql:dbname=%s;host=%s',
 
             echo "AddSearchResult: Fant tabellen: " . $tabell . "<br>";
              
-             $searchQ = "INSERT INTO `" . $database . "`.`" . $tabell . "` (`Search`, `Type`, `Tidspunkt`) VALUES ('" . $search . "', '" . $type . "', CURRENT_TIMESTAMP);";
+             $searchQ = "INSERT INTO `" . $database . "`.`" . $tabell . "` (`Search`, `Type`, `Skole`, `Suks`, `Tidspunkt`) VALUES ('" . $search . "', '" . $type . "', '" . $sTabell . "', '" . $suks . "', CURRENT_TIMESTAMP);";
              $db_con->exec($searchQ);
           } else{
             echo $tabell . " eksisterer ikke, Merkelig! - AddStudent<br>";

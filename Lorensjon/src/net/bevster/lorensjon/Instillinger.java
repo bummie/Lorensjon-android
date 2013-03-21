@@ -4,6 +4,9 @@
 
 package net.bevster.lorensjon;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.bevster.lorensjon.adapters.Instillinger_adapter;
 import net.bevster.lorensjon.io.EasyIO;
 import net.bevster.lorensjon.url.PHPRequest;
@@ -12,12 +15,15 @@ import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
 
 import android.app.Activity;
+import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -131,6 +137,7 @@ public class Instillinger extends Activity {
 
 		// Knapp for aa lagre informasjon
 		btn_lagre = (Button) findViewById(R.id.btn_lagre);
+		btn_lagre.setBackgroundResource(R.drawable.button_blue);
 		btn_lagre.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
@@ -141,6 +148,7 @@ public class Instillinger extends Activity {
 
 		// Sokeknapp
 		btn_sok = (Button) findViewById(R.id.loren_knapp_sok);
+		btn_sok.setBackgroundResource(R.drawable.button_blue);
 		btn_sok.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
@@ -208,6 +216,7 @@ public class Instillinger extends Activity {
 		});
 
 		new Task_Oppstart().execute(true);
+		new Task_LagretData().execute(true);
 
 	}
 
@@ -231,6 +240,7 @@ public class Instillinger extends Activity {
 
 		loadValuesArrays();
 
+		// Fjerner tidligere date
 		txt_bruker.setText("");
 		txt_id.setText("");
 		txt_klasse.setText("");
@@ -238,6 +248,7 @@ public class Instillinger extends Activity {
 		txt_uke.setText("");
 		txt_skoleid.setText("");
 
+		// Legger til ny data
 		txt_bruker.append(SETTINGS_STUDENT[0]);
 		txt_id.append(SETTINGS_STUDENT[2]);
 		txt_klasse.append(SETTINGS_STUDENT[1]);
@@ -342,15 +353,21 @@ public class Instillinger extends Activity {
 
 		loadValuesArrays();
 
-		spinner_adapter_ukemodus = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Høy", "Lav" });
-
 		if (isOnline()) {
-			spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, PReq.returnSkoler("loren_skoleliste"));
+			spinner_adapter_skole = new ArrayAdapter<String>(this, R.layout.bev_spinner_stil, PReq.returnSkoler("loren_skoleliste"));
 		} else {
-			spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Kunne ikke laste skoler" });
+			spinner_adapter_skole = new ArrayAdapter<String>(this, R.layout.bev_spinner_stil, new String[] { "Kunne ikke laste skoler" });
 		}
 
-		spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { "Søk for navn" });
+		spinner_adapter_navn = new ArrayAdapter<String>(this, R.layout.bev_spinner_stil, new String[] { "Søk for navn" });
+
+	}
+
+	void lastLokalAdapter() {
+
+		loadValuesArrays();
+
+		spinner_adapter_ukemodus = new ArrayAdapter<String>(this, R.layout.bev_spinner_stil, new String[] { "Høy", "Lav" });
 
 	}
 
@@ -362,7 +379,7 @@ public class Instillinger extends Activity {
 		 * 
 		 * if (isOnline()) { spinner_adapter_skole = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, PReq.returnSkoler("loren_skoleliste")); } else { spinner_adapter_skole = new ArrayAdapter<String>(this,
 		 * android.R.layout.simple_spinner_item, new String[] { "Kunne ikke laste skoler" }); } */
-		spinner_adapter_navn = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, loren_navn);
+		spinner_adapter_navn = new ArrayAdapter<String>(this, R.layout.bev_spinner_stil, loren_navn);
 
 	}
 
@@ -496,6 +513,9 @@ public class Instillinger extends Activity {
 	}
 
 	private class Task_Sok extends AsyncTask<String, Integer, Integer> {
+		private ProgressDialog pdia;
+
+		private Context con = getApplicationContext();
 
 		protected Integer doInBackground(String... params) {
 
@@ -523,8 +543,11 @@ public class Instillinger extends Activity {
 
 				if (Loren_data_student[i][3].equalsIgnoreCase("Navnfri")) {
 					navnListe[i] = Loren_data_student[i][2];
-				} else {
+				} else if (Loren_data_student[i][2].equalsIgnoreCase("Ukjent")) {
 					navnListe[i] = Loren_data_student[i][3];
+				} else {
+					navnListe[i] = Loren_data_student[i][2] + " | " + Loren_data_student[i][3];
+
 				}
 
 			}
@@ -537,12 +560,22 @@ public class Instillinger extends Activity {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-
+			/* pdia = new ProgressDialog(con); pdia.setMessage("Søker..."); pdia.show(); */
 			Toast.makeText(getApplicationContext(), "Søker!", Toast.LENGTH_SHORT).show();
 
 		}
 
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+			// Toast.makeText(getApplicationContext(), values[0].toString() + "%", Toast.LENGTH_SHORT).show();
+
+		}
+
 		protected void onPostExecute(Integer result) {
+
+			// pdia.dismiss();
 
 			if (result != 1) {
 				Toast.makeText(getApplicationContext(), "Søket gav " + result + " resultater!", Toast.LENGTH_SHORT).show();
@@ -552,6 +585,36 @@ public class Instillinger extends Activity {
 
 			spinner_navn.setAdapter(spinner_adapter_navn);
 
+		}
+
+	}
+
+	private class Task_LagretData extends AsyncTask<Boolean, Integer, String> {
+
+		protected String doInBackground(Boolean... params) {
+
+			loadValuesArrays(); // Fyll tabellene med lagret data
+			lastLokalAdapter();
+
+			return "Null";
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+
+		}
+
+		protected void onPostExecute(String result) {
+
+			setStatus();
+			spinner_ukemodus.setAdapter(spinner_adapter_ukemodus);
+			// spinner_navn.setAdapter(spinner_adapter_navn);
+
+			loadStoredValues(); // Last inn lagrede data til view elementer
+
+			// Toast.makeText(getApplicationContext(), "!", Toast.LENGTH_SHORT).show();
 		}
 
 	}
@@ -572,18 +635,24 @@ public class Instillinger extends Activity {
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			setStatus(); // Oppdater status fra lokaldata
 
 		}
 
 		protected void onPostExecute(String result) {
 
 			spinner_skole.setAdapter(spinner_adapter_skole);
-			// spinner_navn.setAdapter(spinner_adapter_navn);
-			spinner_ukemodus.setAdapter(spinner_adapter_ukemodus);
-			loadStoredValues(); // Last inn lagrede data til view elementer
 
-			Toast.makeText(getApplicationContext(), "Lastet verdier!", Toast.LENGTH_SHORT).show();
+			if (eIO.fileExist(EasyIO.SETTINGS_STUDENTER)) {
+
+				if (isOnline()) {
+					spinner_skole.setSelection(Integer.parseInt(SETTINGS_STUDENT[3].toString()));
+				} else {
+					spinner_skole.setSelection(0);
+				}
+
+			}
+			// spinner_navn.setAdapter(spinner_adapter_navn);
+			Toast.makeText(getApplicationContext(), "Lastet skoler!", Toast.LENGTH_SHORT).show();
 		}
 
 	}

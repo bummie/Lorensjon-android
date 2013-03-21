@@ -3,6 +3,7 @@
 //-----------------------------------------------------------------------------
 
 package net.bevster.lorensjon.url;
+
 import net.bevster.lorensjon.io.EasyIO;
 
 import android.util.Log;
@@ -59,14 +60,36 @@ public class PHPRequest {
 	// Gjør om HTML-tabellen om til en 2D java tabell
 	private String[][] reqToArray(String adresse) {
 
-		int[] mengde = elementAmount(adresse);
-
-		String[][] loren_array = new String[mengde[1]][mengde[0]];
+		int[] mengde = new int[2];
+		String[][] loren_array = null;
 
 		try {
 			loren_document = Jsoup.connect(adresse).get();
 
-			//Log.w("DOKUMENT", loren_document.toString());
+			// Log.w("DOKUMENT", loren_document.toString());
+
+			for (Element size : loren_document.select("q")) {
+				Elements sQ = size.select("q");
+
+				String storelse = sQ.get(0).toString();
+				storelse = storelse.replaceFirst("<q>", "");
+				storelse = storelse.replaceFirst("</q>", "");
+				String[] sNengde = storelse.split("\\$");
+
+				for (String string : sNengde) {
+					Log.w("sNengde", string);
+				}
+
+				for (int i = 0; i < sNengde.length; i++) {
+					if (Integer.parseInt(sNengde[i]) < 0) {
+						mengde[i] = 0;
+					} else {
+						mengde[i] = Integer.parseInt(sNengde[i]);
+					}
+				}
+				loren_array = new String[mengde[1]][mengde[0]];
+
+			}
 
 			for (Element table : loren_document.select("table").select("table")) {
 				int i = 0;

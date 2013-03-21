@@ -59,6 +59,8 @@ $db_con = new PDO(sprintf('mysql:dbname=%s;host=%s',
 
 }
 
+
+// Returnerer ingenting, viser frem tabell av array
 function printSearch($tabell, $search, $type){
 global $database, $host, $brukernavn, $passord;
 
@@ -77,7 +79,6 @@ $fixed_str = str_replace('Oslash', '&#216;', $fixed_str);
 $fixed_str = str_replace('aring', '&#229;', $fixed_str);
 $fixed_str = str_replace('Aring', '&#197;', $fixed_str);
 
- addSearchResult($host, $brukernavn, $passord, $database, "loren_result_search", $search, $type);
 
 try{
 $db_con = new PDO(sprintf('mysql:dbname=%s;host=%s', 
@@ -93,6 +94,11 @@ $db_con = new PDO(sprintf('mysql:dbname=%s;host=%s',
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
 
         fiksetTabell($result);
+        if(!$result){
+           addSearchResult($host, $brukernavn, $passord, $database, "loren_result_search", $search, $type, $tabell, false);
+        }else{
+           addSearchResult($host, $brukernavn, $passord, $database, "loren_result_search", $search, $type, $tabell, true);
+        }
 
     } catch(PDOException $e) {
     echo 'ERROR: ' . $e->getMessage();
@@ -100,6 +106,7 @@ $db_con = new PDO(sprintf('mysql:dbname=%s;host=%s',
     }
 }
 
+//Returnerer array
 function printSearchTable($tabell, $search, $type){
 global $database, $host, $brukernavn, $passord;
 
@@ -139,6 +146,8 @@ $db_con = new PDO(sprintf('mysql:dbname=%s;host=%s',
     }
 }
 
+
+// Antallet som har lastet MOTD
 function updateAntall($tabell){
 global $database, $host, $brukernavn, $passord;
 
@@ -229,23 +238,31 @@ $db_con = new PDO(sprintf('mysql:dbname=%s;host=%s',
 function fiksetAntall($liste){
         foreach ($liste as $rows => $row) {
             foreach ($row as $col => $cell) {
-            echo "<font size='24'>MOTD har blitt lastet: " . $cell/2 . "</font>";
+            echo "<font size='24'>MOTD har blitt lastet: " . $cell/2 . " Utndel: " . $cell."</font>";
         }   
     }   
 }
 
 
-  function fiksetTabell($liste){
+function fiksetTabell($liste){
+       
+       $aY = -1; // Array Y lengde
+       $aX = -1; // Array X lengde
+       
+
         echo "<table border='1'>";
         foreach ($liste as $rows => $row) {
-            echo "<tr>";
-            foreach ($row as $col => $cell) {
+          $aY = count($liste);
 
-            echo "<td>" . $cell . "</td>";
-        }   
+            echo "<tr>";
+              foreach ($row as $col => $cell) {
+              $aX = count($row);              
+                echo "<td>" . $cell . "</td>";
+              }   
             echo "</tr>";
-    }   
+          }   
             echo "</table>";
+            echo "<q>". $aX . "$" .  $aY. "</q><br>";
 }
 
 ?>

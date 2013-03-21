@@ -62,19 +62,27 @@ public class Ukeplan extends Activity {
 
 		ukeplanBilde = (TouchImageView) findViewById(R.id.loren_ukeplanbilde);
 
+		// Fiks dette rotet en vakker dag!
 		btn_man = (Button) findViewById(R.id.knapp_man);
+		btn_man.setBackgroundResource(R.drawable.button_blue);
+
 		btn_tir = (Button) findViewById(R.id.knapp_tir);
+		btn_tir.setBackgroundResource(R.drawable.button_blue);
+
 		btn_ons = (Button) findViewById(R.id.knapp_ons);
+		btn_ons.setBackgroundResource(R.drawable.button_blue);
+
 		btn_tor = (Button) findViewById(R.id.knapp_tor);
+		btn_tor.setBackgroundResource(R.drawable.button_blue);
+
 		btn_fre = (Button) findViewById(R.id.knapp_fre);
+		btn_fre.setBackgroundResource(R.drawable.button_blue);
 
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		// if()
 
 		ukePlanListe = null;
 

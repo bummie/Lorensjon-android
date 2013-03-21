@@ -32,8 +32,8 @@
             app:selectedBold="true"
             app:selectedColor="#1874CD"
             app:selectedSize="12dp"
-            app:textColor="#1874CD"
-            app:textSize="11dp"
+            app:textColor="#FFFFFF"
+            app:textSize="11sp"
             app:titlePadding="10dp" >
         </org.taptwo.android.widget.TitleFlowIndicator>
     </LinearLayout>

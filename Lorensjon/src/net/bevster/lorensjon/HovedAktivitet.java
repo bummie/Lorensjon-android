@@ -22,7 +22,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.markupartist.android.widget.ActionBar;
 
@@ -173,7 +172,7 @@ public class HovedAktivitet extends Activity {
 		SETTINGS_UKEPLAN = eIO.getTable(EasyIO.SETTINGS_UKEPLAN);
 		SETTINGS_STUDENT = eIO.getTable(EasyIO.SETTINGS_STUDENTER);
 
-		String[] setninger = { "Uke: " + SETTINGS_UKEPLAN[0] + " | " + SETTINGS_STUDENT[0], "Du vet det er helg, " + SETTINGS_STUDENT[0] + "?" };
+		String[] setninger = { "Uke: " + SETTINGS_UKEPLAN[0] + " | " + SETTINGS_STUDENT[0], "Du vet det er helg, " + SETTINGS_STUDENT[0] + "?", "Uke: " + SETTINGS_UKEPLAN[0] + " | " + SETTINGS_STUDENT[1] };
 		// "Trives du på " + SETTINGS_UKEPLAN[3].replaceAll("loren_tabell_", "") + " VGS?", "Vi er i uke: " + SETTINGS_UKEPLAN[0], SETTINGS_UKEPLAN[3].replaceAll("loren_tabell_", "") + " VGS er topp!", SETTINGS_STUDENT[0] + " er best!",
 		// SETTINGS_UKEPLAN[2], "Følg med i timen " + SETTINGS_STUDENT[0], SETTINGS_STUDENT[2], SETTINGS_STUDENT[1] + " er noen glupinger!"
 
@@ -183,7 +182,13 @@ public class HovedAktivitet extends Activity {
 
 		} else {
 
-			return setninger[0]; // [new Random().nextInt(setninger.length)];
+			if (SETTINGS_STUDENT[0].equalsIgnoreCase("Navnfri")) {
+				return setninger[2]; // [new Random().nextInt(setninger.length)];
+
+			} else {
+				return setninger[0]; // [new Random().nextInt(setninger.length)];
+
+			}
 
 		}
 	}

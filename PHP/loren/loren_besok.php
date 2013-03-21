@@ -15,6 +15,7 @@ include_once('ut/loren_ut_func.php');
 
 
 printFullTabell("loren_antall_besokne");
+printFullTabell("loren_result_search");
 
 
 ?>
