@@ -20,4 +20,7 @@ Takk til
 
 http://bevster.net/lorenplan/kreditt.php
 
+Bilder
+
+<img src="http://bevster.net/lorenplan/content/lorenplan_3.jpg">
 
